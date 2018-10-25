@@ -1,3 +1,3 @@
 # UTSureWalk
 
-The app for UTSureWalk
+The awesome app for UTSureWalk
