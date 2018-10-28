@@ -13,6 +13,9 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
       <Image source={ require('../assets/images/surewalk.png')} style={styles.logo}/>
+        <Button title='Rider' color="#841584" onPress={() =>
+          navigate('Rider', {})
+        } />
         <Button title='Driver' onPress={() =>
           navigate('DriverQueue', {})
         } />
