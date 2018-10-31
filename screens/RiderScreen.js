@@ -11,8 +11,14 @@ export default class RiderScreen extends React.Component {
   }
   
   render() {
+
+    const { navigate } = this.props.navigation;
+
     return (
       <View style = {{paddingTop:20}}>
+        <Button title= "< Home" onPress={() =>
+            navigate('Main', {})
+            } />
         <Text>Rider Home!</Text>
         <Button 
           onPress={() => fetch('https://react-test-79a3b.firebaseio.com/queue.json', {

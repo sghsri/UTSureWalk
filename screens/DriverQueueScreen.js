@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image,Platform,ScrollView,StyleSheet,Text,TouchableOpacity,View,FlatList} from 'react-native';
+import {Image,Platform,ScrollView,StyleSheet,Text,TouchableOpacity,View,FlatList,Button} from 'react-native';
 import { WebBrowser } from 'expo';
 import ApiKeys from '../constants/ApiKeys'
 import * as firebase from 'firebase';
@@ -55,9 +55,15 @@ export default class DriverQueueScreen extends React.Component {
   };
 
   render() {
+
+    const { navigate } = this.props.navigation;
+
     return (
 
-      <View style={styles.container}>
+      <View style={{styles.container}}>
+        <Button title= "< Home" onPress={() =>
+            navigate('Main', {})
+            } />
         <Text>Driver Queue</Text>
 
         <FlatList data={this.state.riders}
