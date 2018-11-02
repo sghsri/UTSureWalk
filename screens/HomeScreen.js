@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     flex: 1,
-    width: 400,
-    height: 400,
+    width: '100%',
+    height: '100%',
     resizeMode: 'contain'
   },
 });

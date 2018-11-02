@@ -60,7 +60,7 @@ export default class DriverQueueScreen extends React.Component {
 
     return (
 
-      <View style={{styles.container}}>
+      <View style={styles.container}>
         <Button title= "< Home" onPress={() =>
             navigate('Main', {})
             } />
