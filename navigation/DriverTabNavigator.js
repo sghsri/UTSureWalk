@@ -6,6 +6,8 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import DriverQueueScreen from '../screens/DriverQueueScreen'
 import DriverRidersScreen from '../screens/DriverRidersScreen'
+import LoginScreen from '../screens/auth/LoginScreen';
+import SignUpScreen from '../screens/auth/SignUpScreen';
 
 const DriverQueueStack = createStackNavigator({
   DriverQueue: DriverQueueScreen,
