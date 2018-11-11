@@ -76,6 +76,9 @@ export default class DriverQueueScreen extends React.Component {
             </View>
           }
           />
+        <Button title= "< Home" onPress={() =>
+            navigate('Main', {})
+            } />
       </View>
 
     );
