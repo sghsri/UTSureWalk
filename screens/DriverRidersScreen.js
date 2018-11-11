@@ -7,7 +7,7 @@ import * as firebase from 'firebase';
 export default class DriverRidersScreen extends React.Component {
   constructor (props) {
     super(props);
-
+    this.mydriverid = "101";
     this.state = {
       riders: []
     }
@@ -21,14 +21,18 @@ export default class DriverRidersScreen extends React.Component {
     firebase
       .database()
       .ref()
-      .child("current_riders")
+      .child("rides")
       .once("value", snapshot => {
         const data = snapshot.val()
         if (snapshot.val()) {
           const initRiders = [];
           Object
             .keys(data)
-            .forEach(rider => initRiders.push(data[rider]));
+            .forEach(rider => {
+              if(data[rider].driverid == this.mydriverid) {
+                initRiders.unshift(data[rider]);
+              }
+            });
           this.setState({
             riders: initRiders
           })
@@ -65,10 +69,11 @@ export default class DriverRidersScreen extends React.Component {
             ({item}) =>
             <View style={styles.listItemContainer}>
               <Text style={styles.listItem}>
-                {item}
+                {item.rider}
               </Text>
             </View>
           }
+          keyExtractor={(item, index) => index.toString()}
           />
       </View>
 
