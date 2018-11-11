@@ -21,14 +21,18 @@ export default class DriverQueueScreen extends React.Component {
     firebase
       .database()
       .ref()
-      .child("queue")
+      .child("rides")
       .once("value", snapshot => {
         const data = snapshot.val()
         if (snapshot.val()) {
           const initRiders = [];
           Object
             .keys(data)
-            .forEach(rider => initRiders.push(data[rider]));
+            .forEach(rider => {
+              if(data[rider].status == "queued") {
+                initRiders.unshift(data[rider]);
+              }
+            });
           this.setState({
             riders: initRiders
           })
@@ -38,13 +42,13 @@ export default class DriverQueueScreen extends React.Component {
     firebase
       .database()
       .ref()
-      .child("queue")
+      .child("rides")
       .on("child_added", snapshot => {
         const data = snapshot.val();
         if (data) {
-          this.setState(prevState => ({
+          this.setState(prevState => {
             riders: [data, ...prevState.riders]
-          }))
+          })
         }
       })
 
@@ -71,10 +75,17 @@ export default class DriverQueueScreen extends React.Component {
             ({item}) =>
             <View style={styles.listItemContainer}>
               <Text style={styles.listItem}>
-                {item}
+                Name: {item.rider}
+              </Text>
+              <Text style={styles.listItemSmall}>
+                Status: {item.status}
+              </Text>
+              <Text style={styles.listItemSmall}>
+                Dropoff: {item.dropoff}
               </Text>
             </View>
           }
+          keyExtractor={(item, index) => index.toString()}
           />
         <Button title= "< Home" onPress={() =>
             navigate('Main', {})
@@ -101,6 +112,10 @@ const styles = StyleSheet.create({
   },
   listItem: {
     fontSize: 20,
+    padding: 10
+  },
+  listItemSmall: {
+    fontSize: 15,
     padding: 10
   },
 });
