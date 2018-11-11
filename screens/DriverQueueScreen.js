@@ -65,9 +65,6 @@ export default class DriverQueueScreen extends React.Component {
     return (
 
       <View style={styles.container}>
-        <Button title= "< Home" onPress={() =>
-            navigate('Main', {})
-            } />
         <Text>Driver Queue</Text>
 
         <FlatList data={this.state.riders}
