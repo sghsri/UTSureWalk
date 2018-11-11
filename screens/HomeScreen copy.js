@@ -26,31 +26,29 @@ export default class HomeScreen extends React.Component {
     };
   }
 
-  async storeItem(key, item) {
+  _storeData = async (value) => {
     try {
-      //we want to wait for the Promise returned by AsyncStorage.setItem()
-      //to be resolved to the actual value before returning the value
-      var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
-      return jsonOfItem;
+      await AsyncStorage.setItem('@User', value);
     } catch (error) {
-      console.log(error.message);
+      // Error saving data
     }
   }
-  async retrieveItem(key) {
+  _retrieveData = async (key) => {
     try {
-      const retrievedItem = await AsyncStorage.getItem(key);
-      const item = JSON.parse(retrievedItem);
-      return item;
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+      }
     } catch (error) {
-      console.log(error.message);
+      // Error retrieving data
     }
-    return
   }
   handleSubmit = () => {
     const value = this._form.getValue(); // use that ref to get the form value
     if (value) {
-      var eid = value.eid.toLowerCase();
-      if ((/\d/g).test(eid)) {
+      var eid = value.eid;
+      if (("/\d/g").test(eid)) {
         var url = `https://directory.utexas.edu/index.php?q=${eid}&scope=all&submit=Search`;
         fetch(url).then((response) => {
           return response.text();
@@ -63,39 +61,8 @@ export default class HomeScreen extends React.Component {
               this.openAlert();
             } else {
               console.log("wtf");
-              //type of cart, capacity of cart, isDriver, eid, name, phone number
-              var user = {
-                eid: eid,
-                name: value.name,
-                phone: value.phone,
-                cart: "",
-                capacity: 0,
-                isDriver: 0,
-              }
-              this.storeItem("@User", user);
-              fetch('https://react-test-79a3b.firebaseio.com/users.json')
-                .then(function (response) {
-                  return response.json();
-                })
-                .then(function (myJson) {
-                  var contains = false;
-                  for (var key in myJson) {
-                    if (myJson.hasOwnProperty(key)) {
-                      var val = myJson[key];
-                      console.log(val);
-                      if (val.eid === eid) {
-                        contains = true;
-                        break;
-                      }
-                    }
-                  }
-                  if (!contains) {
-                    fetch('https://react-test-79a3b.firebaseio.com/users.json', {
-                      method: 'POST',
-                      body: JSON.stringify(user)
-                    })
-                  }
-                });
+              this._storeData(value);
+              this._retrieveData(value)
             }
           } else {
             this.openAlert();
