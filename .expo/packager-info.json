@@ -3,6 +3,7 @@
   "expoServerPort": 19000,
   "packagerPort": 19001,
   "packagerPid": 13336,
+  //"packagerPid": 39712, "old Pid before 11/11 merge"
   "expoServerNgrokUrl": null,
   "packagerNgrokUrl": null,
   "ngrokPid": null
