@@ -3,6 +3,7 @@ import {Image,Platform,ScrollView,StyleSheet,Text,TouchableOpacity,View,FlatList
 import { WebBrowser } from 'expo';
 import ApiKeys from '../constants/ApiKeys'
 import * as firebase from 'firebase';
+import RideItem from '../components/RideItem'
 
 export default class DriverQueueScreen extends React.Component {
   constructor (props) {
@@ -53,10 +54,33 @@ export default class DriverQueueScreen extends React.Component {
       })
 
   }
+    
+    
+    renderItem({ item }) {
+
+        //const { campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status } = item
+        
+        return (
+            <RideItem
+                campus={item.campus}
+                driverid= {item.driverid}
+                dropoff={item.dropoff}
+                note={item.note}
+                numriders= {item.numriders}
+                pickup= {item.pickup}
+                rider={item.rider}
+                riderid = {item.riderid}
+                status  = {item.status}
+            />
+        )
+    }
 
   static navigationOptions = {
     header: null,
   };
+
+
+
 
   render() {
 
@@ -67,22 +91,10 @@ export default class DriverQueueScreen extends React.Component {
       <View style={styles.container}>
         <Text>Driver Queue</Text>
 
-        <FlatList data={this.state.riders}
-          renderItem={
-            ({item}) =>
-            <View style={styles.listItemContainer}>
-              <Text style={styles.listItem}>
-                Name: {item.rider}
-              </Text>
-              <Text style={styles.listItemSmall}>
-                Status: {item.status}
-              </Text>
-              <Text style={styles.listItemSmall}>
-                Dropoff: {item.dropoff}
-              </Text>
-            </View>
-          }
-          keyExtractor={(item, index) => index.toString()}
+        <FlatList
+            data={this.state.riders}
+            renderItem={this.renderItem}
+            keyExtractor={(item, index) => index.toString()}
           />
         <Button title= "< Home" onPress={() =>
             navigate('Main', {})
@@ -97,6 +109,7 @@ export default class DriverQueueScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: '10%',
     backgroundColor: '#fff',
   },
   contentContainer: {
