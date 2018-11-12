@@ -1,5 +1,5 @@
 import React from 'react';
-import {Component, TouchableOpacity, StyleSheet, View, Text, Button, Picker} from 'react-native';
+import {Component, TouchableOpacity, StyleSheet, View, Text, Button, Picker, TextInput} from 'react-native';
 
 
 export default class RiderScreen extends React.Component {
@@ -42,7 +42,7 @@ OffCampusList = [ "Castilian", "Skyloft", "Dobie"]
 
   onCampus()
   {
-    if (this.OffCampusList.indexOf(this.state.pickup) >= 0)
+    if (this.OffCampusList.indexOf(this.pickup) >= 0)
       this.onCampus= false;
     else
       this.onCampus = true;
@@ -551,10 +551,11 @@ OffCampusList = [ "Castilian", "Skyloft", "Dobie"]
 <Picker.Item label="Castilian" value="Castilian"/>
 <Picker.Item label="Skyloft" value="Skyloft"/>
 <Picker.Item label="Dobie" value="Dobie"/>
-        </Picker>
-        <Button title="Select Your Destination" onPress={this.clicker}/> 
-        <Button 
-          onPress={() => fetch('https://react-test-79a3b.firebaseio.com/queue.json', {
+</Picker>
+<Button title="Select Your Destination" onPress={this.clicker}/> 
+<TextInput style={styles.searchInput} placeholder = 'Type in any additional notes'/>
+<Button 
+onPress={() => fetch('https://react-test-79a3b.firebaseio.com/queue.json', {
                     method: 'POST',
                     body: JSON.stringify({
                       name: this.state.name,
@@ -584,5 +585,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#E87636',
+  },
+  searchInput:
+  {
+    height: 40,
+    width: 250,
+    fontSize: 18,
+    borderWidth: 1,
+    color: 'black',
+    borderColor:'#488BEC',
+    borderRadius:1
   }
 });
