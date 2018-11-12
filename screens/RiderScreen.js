@@ -68,7 +68,7 @@ OffCampusList = [ "Castilian", "Skyloft", "Dobie"]
         Welcome Surewalk Rider!
         </Text>
         <Picker 
-        style={{width: '80%'}}
+        style={{width: '100%'}}
         selectedValue={this.state.PickerValue}
         onValueChange={(itemValue, itemIndex) => this.setState({PickerValue: itemValue})}
         >
@@ -558,7 +558,12 @@ OffCampusList = [ "Castilian", "Skyloft", "Dobie"]
 <Picker.Item label="Dobie" value="Dobie"/>
 </Picker>
 <Button title="Select Your Destination" onPress={this.clicker}/> 
-<TextInput style={styles.searchInput} placeholder = 'Type in any additional information'/>
+<TextInput style={styles.searchInput} placeholder = 'Enter the number of riders'
+        onChangeText={(text) => this.setState({text})}
+        value={this.state.numRiders}/>
+<TextInput style={styles.searchInput} placeholder = 'Type in any additional information'
+        onChangeText={(text) => this.setState({text})}
+        value={this.state.notes}/>
 <Button 
 onPress={() => fetch('https://react-test-79a3b.firebaseio.com/queue.json', {
                     method: 'POST',
