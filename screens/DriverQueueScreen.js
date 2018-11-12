@@ -110,7 +110,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: '10%',
-    backgroundColor: '#fff',
+    backgroundColor: '#E87636',
+    paddingLeft: '5%',
+    paddingRight: '5%',
   },
   contentContainer: {
     paddingTop: 30,
