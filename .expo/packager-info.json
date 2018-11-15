@@ -1,6 +1,6 @@
 {
-  "devToolsPort": 19002,
   "expoServerPort": 19000,
+  "devToolsPort": 19002,
   "packagerPort": 19001,
   "packagerPid": 13724,
   "expoServerNgrokUrl": "https://rw-bk6.anonymous.utsurewalk.exp.direct",
