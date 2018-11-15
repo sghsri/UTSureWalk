@@ -1,9 +1,5 @@
 import React from 'react';
-<<<<<<< HEAD
 import { Image, TextInput, Platform, AsyncStorage, ScrollView, Alert, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
-=======
-import { Image, TextInput, Platform, ScrollView, Alert, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
->>>>>>> fd993b8d2f40db70a6502077309a89995a766944
 import { WebBrowser } from 'expo';
 
 
@@ -15,11 +11,7 @@ const Form = t.form.Form;
 const User = t.struct({
   name: t.String,
   eid: t.String,
-<<<<<<< HEAD
   phone: t.Number,
-=======
-  phone: t.String
->>>>>>> fd993b8d2f40db70a6502077309a89995a766944
 });
 
 
@@ -34,7 +26,6 @@ export default class HomeScreen extends React.Component {
     };
   }
 
-<<<<<<< HEAD
   async storeItem(key, item) {
     try {
       //we want to wait for the Promise returned by AsyncStorage.setItem()
@@ -115,31 +106,6 @@ export default class HomeScreen extends React.Component {
       }
     } else {
       this.openAlert();
-=======
-  handleSubmit = () => {
-    const value = this._form.getValue(); // use that ref to get the form value
-    if (value) {
-      var eid = value.eid;
-      var url = `https://directory.utexas.edu/index.php?q=${eid}&scope=all&submit=Search`;
-      fetch(url).then((response) => {
-        return response.text();
-      }).then((html) => {
-        const $ = cheerio.load(html);
-        var isUT = $('dir_info');
-        if (isUT) {
-          var val = $('#results').text().replace(/\s/g, '');
-          if (val.includes("SearchReturned")) {
-            this.openAlert();
-          } else {
-            console.log("hello");
-          }
-        } else {
-          this.openAlert();
-        }
-      });
-    } else {
-
->>>>>>> fd993b8d2f40db70a6502077309a89995a766944
     }
   }
 
@@ -168,6 +134,13 @@ export default class HomeScreen extends React.Component {
           buttonStyle={styles.button}
           onPress={this.handleSubmit}
         />
+      /*<Image source={ require('../assets/images/surewalk.png')} style={styles.logo}/>
+        <View style={styles.outlinedButton}>
+            <Button title='Rider' color='#E87636' onPress={() => navigate('Rider', {})} />
+        </View>
+        <View style={styles.outlinedButton}>
+            <Button title='Driver' color='#E87636' onPress={() => navigate('DriverQueue', {})} />
+        </View>*/
       </View>
     );
   }
@@ -231,5 +204,18 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 15,
   }
+  
+  /*outlinedButton: {
+      backgroundColor: '#fff',
+      borderRadius: 15,
+      borderWidth: 1,
+      borderColor: '#E87636',
+      marginLeft: '10%',
+      marginRight: '10%',
+      marginTop: '2%',
+      marginBottom: '2%',
+      paddingBottom: '1%',
+    
+  },*/
+  
 });
-
