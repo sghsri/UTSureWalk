@@ -1,19 +1,17 @@
 {
-  "name": "convergentsurewalk",
+  "name": "github.com/anishbose/utsurewalk",
   "version": "0.0.0",
-  "description": "No description",
+  "description": "anishbose/UTSureWalk @ Nov 11, 2018",
   "author": null,
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "dependencies": {
-    "@expo/samples": "2.1.1",
     "expo": "^30.0.0",
-    "firebase": "^5.5.6",
     "react": "16.3.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
-    "react-native-cheerio": "^1.0.0-rc.4",
+    "@expo/samples": "2.1.1",
+    "firebase": "^5.5.6",
     "react-native-elements": "0.19.1",
-    "react-navigation": "2.18.1",
-    "tcomb-form-native": "^0.6.20"
+    "react-navigation": "2.18.1"
   }
 }

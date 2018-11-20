@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Image, View, Text, TextInput, Button, Alert} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Button, Alert} from 'react-native';
 import * as firebase from 'firebase';
 
 export default class LoginScreen extends React.Component {
@@ -26,9 +26,9 @@ export default class LoginScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-          <Image source={ require('../../assets/images/surewalk.png')} style={styles.logo} />
-          <TextInput style={styles.loginField}
+      <View style={{paddingTop:20, alignItems:"center"}}>
+          <Text style={{marginTop:20}}>Login</Text>
+          <TextInput style={{width:200, height: 40, borderWidth:1}}
               value={this.state.email}
               onChangeText={(text) => {this.setState({email: text})}}
               placeholder="email"
@@ -38,7 +38,7 @@ export default class LoginScreen extends React.Component {
 
           <View style={{paddingTop:10}} />
 
-          <TextInput style={styles.loginField}
+          <TextInput style={{width:200, height: 40, borderWidth:1}}
               value={this.state.password}
               onChangeText={(text) => {this.setState({password: text})}}
               placeholder="password"
@@ -46,49 +46,16 @@ export default class LoginScreen extends React.Component {
               autoCapitalize="none"
               autoCorrect={false}/>
 
-          <View style={styles.buttonStyles}>
-            <Button color='#E87636' title="Login" onPress={this.onLoginPress} />
-          </View>
-          <View style={styles.buttonStyles}>
-            <Button color='#E87636' title="Create Account" onPress={this.onCreateAccountPress} />
-          </View>
+          <View style={{paddingTop:10}} />
+
+          <Button title="Login" onPress={this.onLoginPress} />
+          <View style={{paddingTop:10}} />
+          <Button title="Create Account" onPress={this.onCreateAccountPress} />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-    logo: {
-        width: '75%',
-        height: '20%',
-        resizeMode: 'contain',
-        tintColor: 'white',
-        marginBottom: '10%',
-        marginTop: '10%',
-    },
-    container: {
-        backgroundColor: '#E87636',
-        paddingTop: 20,
-        alignItems: 'center',
-        height: '100%',
-    },
-    loginField: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#fff',
-        height: '10%',
-        width: '80%',
-        paddingLeft: '2%',
-        marginBottom: '5%',
-    },
-    buttonStyles: {
-        marginTop: '5%',
-        height: '10%',
-        width: '50%',
-        paddingTop: '2%',
-        paddingBottom: '0%',
-        paddingLeft: '2%',
-        paddingRight: '2%',
-        backgroundColor: 'white',
-        borderRadius: 15,
-    }
+
 });
