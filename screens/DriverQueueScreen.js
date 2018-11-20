@@ -29,9 +29,22 @@ export default class DriverQueueScreen extends React.Component {
           const initRiders = [];
           Object
             .keys(data)
-            .forEach(rider => {
-              if(data[rider].status == "queued") {
-                initRiders.unshift(data[rider]);
+            .forEach(ride_key => {
+              if(data[ride_key].status == 1) {
+                //initRiders.unshift(data[ride_key]);
+
+                initRiders.unshift({
+                  campus: data[ride_key].campus,
+                  driverid: data[ride_key].driverid,
+                  dropoff: data[ride_key].dropoff,
+                  note: data[ride_key].note,
+                  numriders: data[ride_key].numriders,
+                  pickup: data[ride_key].pickup,
+                  rider: data[ride_key].rider,
+                  riderid: data[ride_key].riderid,
+                  status: data[ride_key].status,
+                  ride_id: ride_key
+                });
               }
             });
           this.setState({
@@ -54,12 +67,10 @@ export default class DriverQueueScreen extends React.Component {
       })
 
   }
-    
-    
+
+
     renderItem({ item }) {
 
-        //const { campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status } = item
-        
         return (
             <RideItem
                 campus={item.campus}
@@ -71,6 +82,7 @@ export default class DriverQueueScreen extends React.Component {
                 rider={item.rider}
                 riderid = {item.riderid}
                 status  = {item.status}
+                ride_id = {item.ride_id}
             />
         )
     }

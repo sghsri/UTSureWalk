@@ -36,6 +36,7 @@ export default class HomeScreen extends React.Component {
       console.log(error.message);
     }
   }
+
   async retrieveItem(key) {
     try {
       const retrievedItem = await AsyncStorage.getItem(key);
@@ -46,6 +47,7 @@ export default class HomeScreen extends React.Component {
     }
     return
   }
+
   handleSubmit = () => {
     const value = this._form.getValue(); // use that ref to get the form value
     if (value) {
@@ -89,6 +91,7 @@ export default class HomeScreen extends React.Component {
                       }
                     }
                   }
+
                   if (!contains) {
                     fetch('https://react-test-79a3b.firebaseio.com/users.json', {
                       method: 'POST',
@@ -97,12 +100,11 @@ export default class HomeScreen extends React.Component {
                   }
                 });
             }
+
           } else {
             this.openAlert();
           }
         });
-      } else {
-
       }
     } else {
       this.openAlert();
@@ -134,13 +136,6 @@ export default class HomeScreen extends React.Component {
           buttonStyle={styles.button}
           onPress={this.handleSubmit}
         />
-      /*<Image source={ require('../assets/images/surewalk.png')} style={styles.logo}/>
-        <View style={styles.outlinedButton}>
-            <Button title='Rider' color='#E87636' onPress={() => navigate('Rider', {})} />
-        </View>
-        <View style={styles.outlinedButton}>
-            <Button title='Driver' color='#E87636' onPress={() => navigate('DriverQueue', {})} />
-        </View>*/
       </View>
     );
   }
@@ -204,7 +199,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 15,
   }
-  
+
   /*outlinedButton: {
       backgroundColor: '#fff',
       borderRadius: 15,
@@ -215,7 +210,7 @@ const styles = StyleSheet.create({
       marginTop: '2%',
       marginBottom: '2%',
       paddingBottom: '1%',
-    
+
   },*/
-  
+
 });

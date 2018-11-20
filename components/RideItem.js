@@ -2,7 +2,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, TextInput, Button, Alert, Icon, TouchableOpacity} from 'react-native';
 import * as firebase from 'firebase';
- 
+
 export default class RideItem extends React.Component {
   constructor(props) {
     super(props);
@@ -15,31 +15,32 @@ export default class RideItem extends React.Component {
       pickup: '',
       rider: '',
       riderid: '',
-      status: ''
+      status: '',
+      ride_id: ''
     }
   }
- 
+
   componentWillMount() {
-      const { campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status } = this.props
- 
-      this.setState({ campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status })
+      const { campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id } = this.props
+
+      this.setState({ campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id })
   }
- 
+
   componentWillReceiveProps(nextProps) {
-      const { campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status } = nextProps
- 
-      this.setState({ campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status })
+      const { campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id } = nextProps
+
+      this.setState({ campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id })
   }
-    
+
   onPickup() {
     Alert.alert('Pick Up!')
   }
-    
+
   onNoShow() {
     Alert.alert('No Show!')
   }
 
- 
+
   render() {
       return(
         <View style={styles.rideItemComponent}>
@@ -51,15 +52,16 @@ export default class RideItem extends React.Component {
                 </View>
                 <View style={styles.outlinedButton}>
                     <Button color='#E87636' title='No Show' onPress={this.onNoShow}/>
-                    
+
                 </View>
             </View>
             <Text>     Note: {this.state.note}</Text>
             <Text>     Showroute    Remove from queue</Text>
+            <Text>     ID: {this.state.ride_id}</Text>
         </View>
     )
   }
- 
+
 }
 
 const styles = StyleSheet.create({
@@ -89,6 +91,6 @@ const styles = StyleSheet.create({
       marginTop: '2%',
       marginBottom: '2%',
       paddingBottom: '1%',
-    
+
   },
 });
