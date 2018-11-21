@@ -49,6 +49,7 @@ export default class HomeScreen extends React.Component {
   }
 
   handleSubmit = () => {
+    const {navigate} = this.props.navigation;
     const value = this._form.getValue(); // use that ref to get the form value
     if (value) {
       var eid = value.eid.toLowerCase();
@@ -98,7 +99,11 @@ export default class HomeScreen extends React.Component {
                       body: JSON.stringify(user)
                     })
                   }
-                });
+                }).then(function (renavigate) {
+                 console.log("nav");
+                 navigate('Rider', {});
+                 console.log("navigated");
+               });
             }
 
           } else {

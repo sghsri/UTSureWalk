@@ -86,6 +86,7 @@ export default class RiderScreen extends React.Component {
         <ScrollView>
           <View style={styles.container}>
             <Button title="< Home" onPress={() => navigate('Main', {})} />
+            <Button title="Driver >" onPress={() => navigate('DriverQueue', {})} />
             <Text style={styles.welcome}>Welcome Surewalk Rider!</Text>
             <Picker
               style={{ width: '100%' }}
