@@ -3,6 +3,8 @@ import {Image,Platform,ScrollView,StyleSheet,Text,TouchableOpacity,View,FlatList
 import { WebBrowser } from 'expo';
 import ApiKeys from '../constants/ApiKeys'
 import * as firebase from 'firebase';
+import Communications from 'react-native-communications';
+
 
 export default class DriverRidersScreen extends React.Component {
   constructor (props) {
@@ -58,7 +60,16 @@ export default class DriverRidersScreen extends React.Component {
     header: null,
   };
 
+  onPhoneCallPress = (phoneNumber) => {
+    Communications.phonecall(phoneNumber, true);
+  }
+
+  onMapPress = (dropoff) => {
+    Communications.web('https://www.google.com/maps/search/?api=1&query=' + dropoff)
+  }
+
   render() {
+    const {navigate} = this.props.navigation;
     return (
 
       <View style={styles.container}>
@@ -77,12 +88,26 @@ export default class DriverRidersScreen extends React.Component {
               <Text style={styles.listItemSmall}>
                 Dropoff: {item.dropoff}
               </Text>
+              <TouchableOpacity onPress={this.onPhoneCallPress.bind(this, String(item.phone))}>
+                <Image
+                  source={require('../assets/icons/phone.png')}
+                  fadeDuration={0}
+                  style={styles.phoneCall}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.onMapPress.bind(this, item.dropoff)}>
+                <Image
+                  source={require('../assets/icons/map.png')}
+                  fadeDuration={0}
+                  style={styles.phoneCall}
+                />
+              </TouchableOpacity>
             </View>
           }
           keyExtractor={(item, index) => index.toString()}
           />
           <Button title= "< Home" onPress={() =>
-              navigate('Main', {})
+              navigate('Rider', {})
               } />
       </View>
 
@@ -96,9 +121,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  contentContainer: {
-    paddingTop: 30,
-  },
   listItemContainer: {
     backgroundColor: '#fff',
     margin: 5,
@@ -111,5 +133,10 @@ const styles = StyleSheet.create({
   listItemSmall: {
     fontSize: 15,
     padding: 10
+  },
+  phoneCall: {
+    width: 25,
+    height: 25,
+    alignSelf: 'flex-end'
   },
 });
