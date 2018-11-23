@@ -3,6 +3,8 @@ import {Image,Platform,ScrollView,StyleSheet,Text,TouchableOpacity,View,FlatList
 import { WebBrowser } from 'expo';
 import ApiKeys from '../constants/ApiKeys'
 import * as firebase from 'firebase';
+import MyRiderItem from '../components/MyRiderItem'
+
 
 export default class DriverRidersScreen extends React.Component {
   constructor (props) {
@@ -53,6 +55,25 @@ export default class DriverRidersScreen extends React.Component {
       })
 
   }
+    
+    
+    renderItem({ item }) {
+
+        return (
+            <MyRiderItem
+                campus={item.campus}
+                dropoff={item.dropoff}
+                note={item.note}
+                numriders= {item.numriders}
+                pickup= {item.pickup}
+                rider={item.rider}
+                riderid = {item.riderid}
+                status  = {item.status}
+                ride_id = {item.ride_id}
+            />
+        )
+    }
+    
 
   static navigationOptions = {
     header: null,
@@ -65,22 +86,23 @@ export default class DriverRidersScreen extends React.Component {
         <Text>My Riders</Text>
 
         <FlatList data={this.state.riders}
-          renderItem={
-            ({item}) =>
-            <View style={styles.listItemContainer}>
-              <Text style={styles.listItem}>
-                {item.rider}
-              </Text>
-              <Text style={styles.listItemSmall}>
-                Status: {item.status}
-              </Text>
-              <Text style={styles.listItemSmall}>
-                Dropoff: {item.dropoff}
-              </Text>
-            </View>
-          }
+            
+            renderItem={this.renderItem}
+//          renderItem={
+//            ({item}) =>
+//            <View style={styles.listItemContainer}>
+//              <Text style={styles.listItem}>{item.rider}</Text>
+//              <Text style={styles.listItemSmall}>Status: {item.status}</Text>
+//              <Text style={styles.listItemSmall}>Dropoff: {item.dropoff}</Text>
+//            </View>
+//          }
           keyExtractor={(item, index) => index.toString()}
           />
+
+
+
+
+
           <Button title= "< Home" onPress={() =>
               navigate('Main', {})
               } />
