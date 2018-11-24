@@ -229,17 +229,4 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   }
 
-  /*outlinedButton: {
-      backgroundColor: '#fff',
-      borderRadius: 15,
-      borderWidth: 1,
-      borderColor: '#E87636',
-      marginLeft: '10%',
-      marginRight: '10%',
-      marginTop: '2%',
-      marginBottom: '2%',
-      paddingBottom: '1%',
-
-  },*/
-
 });
