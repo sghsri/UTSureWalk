@@ -1,10 +1,11 @@
 import React from 'react';
-import {Image,Platform,ScrollView,StyleSheet,Text,TouchableOpacity,View,FlatList,Button} from 'react-native';
+import {Image, ImageBackground, Platform,ScrollView,StyleSheet,Text,TouchableOpacity,View,FlatList,Button} from 'react-native';
 import { WebBrowser } from 'expo';
 import ApiKeys from '../constants/ApiKeys'
 import * as firebase from 'firebase';
 import Communications from 'react-native-communications';
 import MyRiderItem from '../components/MyRiderItem'
+
 
 
 export default class DriverRidersScreen extends React.Component {
@@ -91,42 +92,35 @@ export default class DriverRidersScreen extends React.Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
+      <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
+          <View style={styles.container}>
+            <FlatList data={this.state.riders}
 
-      <View style={styles.container}>
-        <Text>My Riders</Text>
-
-        <FlatList data={this.state.riders}
-            
-            renderItem={this.renderItem}
-//          renderItem={
-//            ({item}) =>
-//            <View style={styles.listItemContainer}>
-//              <Text style={styles.listItem}>{item.rider}</Text>
-//              <Text style={styles.listItemSmall}>Status: {item.status}</Text>
-//              <Text style={styles.listItemSmall}>Dropoff: {item.dropoff}</Text>
-//            </View>
-//          }
-          keyExtractor={(item, index) => index.toString()}
-          />
+                renderItem={this.renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              />
 
 
-
-
-
-          <Button title= "< Home" onPress={() =>
-              navigate('Rider', {})
-              } />
-      </View>
-
+              <Button title= "< Home" onPress={() =>
+                  navigate('Main', {})
+                  } />
+          </View>
+      </ImageBackground>
     );
   }
 
 }
 
 const styles = StyleSheet.create({
+  containerImg: {
+    width: '100%',
+    height: '100%',  
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    paddingTop: '10%',
+    paddingLeft: '5%',
+    paddingRight: '5%',  
   },
   listItemContainer: {
     backgroundColor: '#fff',
