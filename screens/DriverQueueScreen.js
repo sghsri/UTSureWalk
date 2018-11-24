@@ -94,7 +94,6 @@ export default class DriverQueueScreen extends React.Component {
             if (value.ride_id != data.key) {
               initRiders.unshift(value);
             }
-            console.log(value);
           });
 
           this.setState({
