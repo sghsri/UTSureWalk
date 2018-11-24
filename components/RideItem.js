@@ -44,7 +44,6 @@ async onPickup() {
   try {
     const retrievedItem = await AsyncStorage.getItem("@User");
     const item = JSON.parse(retrievedItem);
-    console.log(item);
 
     firebase.database().ref('rides/' + this.state.ride_id).update({
       driverid: item.eid,
