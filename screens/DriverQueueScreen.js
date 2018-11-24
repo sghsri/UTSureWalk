@@ -10,7 +10,8 @@ export default class DriverQueueScreen extends React.Component {
     super(props);
 
     this.state = {
-      riders: []
+      riders: [],
+      refresh: false
     }
 
     if (!firebase.apps.length) {
@@ -31,7 +32,6 @@ export default class DriverQueueScreen extends React.Component {
             .keys(data)
             .forEach(ride_key => {
               if(data[ride_key].status == 1) {
-                //initRiders.unshift(data[ride_key]);
 
                 initRiders.unshift({
                   campus: data[ride_key].campus,
@@ -45,6 +45,7 @@ export default class DriverQueueScreen extends React.Component {
                   status: data[ride_key].status,
                   ride_id: ride_key
                 });
+
               }
             });
           this.setState({
@@ -61,10 +62,50 @@ export default class DriverQueueScreen extends React.Component {
         const data = snapshot.val();
         if (data) {
           this.setState(prevState => {
-            riders: [data, ...prevState.riders]
+            riders: [{
+              campus: data.campus,
+              driverid: data.driverid,
+              dropoff: data.dropoff,
+              note: data.note,
+              numriders: data.numriders,
+              pickup: data.pickup,
+              rider: data.rider,
+              riderid: data.riderid,
+              status: data.status,
+              ride_id: snapshot.key
+            }, ...prevState.riders]
+          })
+
+          this.setState({
+            refresh: !this.state.refresh
           })
         }
       })
+
+      firebase
+        .database()
+        .ref()
+        .child("rides")
+        .on("child_changed", snapshot => {
+          const data = snapshot.val();
+          const initRiders = [];
+
+          this.state.riders.forEach(function(value){
+            if (value.ride_id != data.key) {
+              initRiders.unshift(value);
+            }
+            console.log(value);
+          });
+
+          this.setState({
+            riders: initRiders
+          })
+
+          this.setState({
+            refresh: !this.state.refresh
+          })
+
+        })
 
   }
 
@@ -105,8 +146,9 @@ export default class DriverQueueScreen extends React.Component {
 
         <FlatList
             data={this.state.riders}
+            extraData={this.state.refresh}
             renderItem={this.renderItem}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item, index) => item.ride_id}
           />
         <Button title= "< Home" onPress={() =>
             navigate('Main', {})

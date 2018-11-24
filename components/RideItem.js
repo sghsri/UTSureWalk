@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {StyleSheet, View, Text, TextInput, Button, Alert, Icon, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Button, Alert, Icon, TouchableOpacity, AsyncStorage} from 'react-native';
 import * as firebase from 'firebase';
 
 export default class RideItem extends React.Component {
@@ -18,6 +18,10 @@ export default class RideItem extends React.Component {
       status: '',
       ride_id: ''
     }
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(ApiKeys.FirebaseConfig);
+    }
   }
 
   componentWillMount() {
@@ -32,13 +36,37 @@ export default class RideItem extends React.Component {
       this.setState({ campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id })
   }
 
-  onPickup() {
-    Alert.alert('Pick Up!')
+
+
+async onPickup() {
+  Alert.alert('Pick Up!')
+
+  try {
+    const retrievedItem = await AsyncStorage.getItem("@User");
+    const item = JSON.parse(retrievedItem);
+    console.log(item);
+
+    firebase.database().ref('rides/' + this.state.ride_id).update({
+      driverid: item.eid,
+      status: 2}).then(() => {}, (error) => {Alert.alert(error.message)});
+
+  } catch (error) {
+    console.log(error.message);
   }
 
-  onNoShow() {
-    Alert.alert('No Show!')
+}
+
+onNoShow() {
+  Alert.alert('No Show!')
+
+  try {
+    firebase.database().ref('rides/' + this.state.ride_id).update({
+      status: 3}).then(() => {}, (error) => {Alert.alert(error.message)});
+
+  } catch (error) {
+    console.log(error.message);
   }
+}
 
 
   render() {
@@ -48,10 +76,10 @@ export default class RideItem extends React.Component {
             <Text>     Pickup: {this.state.pickup} -> Dropoff: {this.state.dropoff}</Text>
             <View style={styles.buttonView}>
                 <View style={styles.outlinedButton}>
-                    <Button color='#E87636' title='Pick Up' onPress={this.onPickup}/>
+                    <Button color='#E87636' title='Pick Up' onPress={this.onPickup.bind(this)}/>
                 </View>
                 <View style={styles.outlinedButton}>
-                    <Button color='#E87636' title='No Show' onPress={this.onNoShow}/>
+                    <Button color='#E87636' title='No Show' onPress={this.onNoShow.bind(this)}/>
 
                 </View>
             </View>
