@@ -1,6 +1,8 @@
 import React from 'react';
 import {Image, StyleSheet, View, Text, TextInput, Button, Alert, Icon, TouchableOpacity} from 'react-native';
 import * as firebase from 'firebase';
+import Communications from 'react-native-communications';
+
 
 export default class MyRiderItem extends React.Component {
   constructor(props) {
@@ -15,20 +17,21 @@ export default class MyRiderItem extends React.Component {
       rider: '',
       riderid: '',
       status: '',
-      ride_id: ''
+      ride_id: '',
+      phone: 0
     }
   }
 
   componentWillMount() {
-      const { campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id } = this.props
+      const { campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, phone } = this.props
 
-      this.setState({ campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id })
+      this.setState({ campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, phone })
   }
 
   componentWillReceiveProps(nextProps) {
-      const { campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id } = nextProps
+      const { campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, phone } = nextProps
 
-      this.setState({ campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id })
+      this.setState({ campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, phone })
   }
 
   onDropOff() {
@@ -38,6 +41,13 @@ export default class MyRiderItem extends React.Component {
   onNoShow() {
     Alert.alert('No Show!')
   }
+    
+  onPhoneCallPress = (phoneNumber) => {
+    Communications.phonecall(phoneNumber, true);
+  }
+   onMapPress = (dropoff) => {
+    Communications.web('https://www.google.com/maps/search/?api=1&query=' + dropoff)
+  }    
 
 
   render() {
@@ -66,6 +76,23 @@ export default class MyRiderItem extends React.Component {
                     <Button color='#E87636' title='No Show' onPress={this.onNoShow}/>
 
                 </View>
+            </View>
+
+            <View stlye={styles.callMap}>
+                <TouchableOpacity onPress={this.onPhoneCallPress.bind(this, String(this.state.phone))}>
+                <Image
+                  source={require('../assets/icons/phone.png')}
+                  fadeDuration={0}
+                  style={styles.phoneCall}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.onMapPress.bind(this, this.state.dropoff)}>
+                <Image 
+                  source={require('../assets/icons/map.png')}
+                  fadeDuration={0}
+                  style={styles.phoneCall}
+                />
+              </TouchableOpacity>
             </View>
         </View>
     )
@@ -141,5 +168,14 @@ const styles = StyleSheet.create({
       width: '100%',
       resizeMode: 'contain',
 
-  },       
+  }, 
+  phoneCall: {
+      width: 25,
+      height: 25,
+      alignSelf: 'flex-end'
+  },
+  callMap: {
+      flexDirection: 'row',
+  },
+    
 });

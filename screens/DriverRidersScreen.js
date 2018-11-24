@@ -71,6 +71,7 @@ export default class DriverRidersScreen extends React.Component {
                 riderid = {item.riderid}
                 status  = {item.status}
                 ride_id = {item.ride_id}
+                phone = {item.phone}
             />
         )
     }
