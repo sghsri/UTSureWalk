@@ -352,7 +352,7 @@ export default class RiderScreen extends React.Component {
             <Text style={styles.title}>How many Riders?</Text>
 
             <View
-              style={{ alignItems: 'center' }}>
+              style={{ alignItems: 'center', marginBottom: 20 }}>
               <UIStepper
                 displayValue={true}
                 maximumValue={6}
@@ -365,10 +365,11 @@ export default class RiderScreen extends React.Component {
               />
             </View>
 
+            <Text style={styles.title}>Additional Information?</Text>
+
             <TextInput
               style={styles.searchInput}
               placeholderTextColor='black'
-              placeholder="Additional Information"
               onChangeText={text => this.state.request.notes = text}
               value={this.state.notes}
             />
@@ -413,7 +414,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderWidth: 1,
     padding: 10,
-    marginTop: 30,
     marginBottom: 10,
     color: 'black',
     fontSize: 16,

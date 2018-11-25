@@ -15,7 +15,7 @@ export default createSwitchNavigator({
 
   // Login: {screen : LoginScreen},
   // SignUp: {screen : SignUpScreen},
-  Main: { screen: HomeScreen },
+  // Main: { screen: HomeScreen },
   Rider: RiderScreen,
   DriverQueue: DriverTabNavigator,
   RiderSubmission: { screen: RiderSubmissionScreen },
