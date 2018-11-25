@@ -8,6 +8,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/auth/LoginScreen';
 import SignUpScreen from '../screens/auth/SignUpScreen';
 import RiderSubmissionScreen from '../screens/RiderSubmissionScreen';
+import StatusScreen from '../screens/StatusScreen';
 
 export default createSwitchNavigator({
   // You could add another route here for authentication.
@@ -19,4 +20,5 @@ export default createSwitchNavigator({
   Rider: RiderScreen,
   DriverQueue: DriverTabNavigator,
   RiderSubmission: {screen : RiderSubmissionScreen},
+  Status: StatusScreen
 });

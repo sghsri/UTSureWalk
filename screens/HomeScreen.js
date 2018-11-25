@@ -133,13 +133,19 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
 
         <Image source={require('../assets/images/surewalk.png')} style={styles.logo} />
-        <Form ref={c => this._form = c} type={User} options={options} />
+        <Form ref={c => this._form = c} type={User} options={options}/>
         <Button
           title="Start Walking Surely"
           color="#E87636"
           fontSize="10"
           buttonStyle={styles.button}
           onPress={this.handleSubmit}
+        />
+        <Button
+          onPress={() => navigate('Status', {})} 
+          color="#E87636"
+          title='Status Screen'
+          buttonStyle={styles.button}
         />
       </View>
     );

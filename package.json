@@ -13,6 +13,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
     "react-native-cheerio": "^1.0.0-rc.4",
     "react-native-elements": "0.19.1",
+    "react-native-linear-gradient": "^2.4.4",
     "react-navigation": "2.18.1",
     "tcomb-form-native": "^0.6.20",
     "react-native-communications": "2.2.1"
