@@ -49,7 +49,7 @@ export default class HomeScreen extends React.Component {
   }
 
   handleSubmit = () => {
-    const {navigate} = this.props.navigation;
+    const { navigate } = this.props.navigation;
     const value = this._form.getValue(); // use that ref to get the form value
     if (value) {
       var eid = value.eid.toLowerCase();
@@ -100,10 +100,10 @@ export default class HomeScreen extends React.Component {
                     })
                   }
                 }).then(function (renavigate) {
-                 console.log("nav");
-                 navigate('Rider', {});
-                 console.log("navigated");
-               });
+                  console.log("nav");
+                  navigate('Rider', {});
+                  console.log("navigated");
+                });
             }
 
           } else {
@@ -133,14 +133,21 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
 
         <Image source={require('../assets/images/surewalk.png')} style={styles.logo} />
-        <Form ref={c => this._form = c} type={User} options={options} />
-        <Button
-          title="Start Walking Surely"
-          color="#E87636"
-          fontSize="10"
-          buttonStyle={styles.button}
-          onPress={this.handleSubmit}
-        />
+        <View
+          style={{ marginBottom: 100 }}
+        >
+          <Form ref={c => this._form = c} type={User} options={options} />
+        </View>
+
+        <View style={{ alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={this.handleSubmit}
+            style={styles.button}
+          >
+            <Text style={styles.buttonTxt}>Start Walking Surely</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
     );
   }
@@ -192,7 +199,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
+    alignItems: 'stretch',
+
+    justifyContent: 'space-between',
   },
   logo: {
     flex: 1,
@@ -202,7 +211,22 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   button: {
-    borderRadius: 15,
+    backgroundColor: "#E87636",
+    position: 'absolute',
+    bottom: 0,
+    margin: 20,
+    marginTop: 30,
+    padding: 10,
+    marginRight: 5,
+    borderRadius: 50
+  },
+  buttonTxt: {
+    alignSelf: 'center',
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+    paddingTop: 5,
+    paddingBottom: 5,
   }
 
   /*outlinedButton: {
