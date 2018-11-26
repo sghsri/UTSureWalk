@@ -1,6 +1,11 @@
 {
   "name": "convergentsurewalk",
   "version": "0.0.0",
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
+  },
   "description": "No description",
   "author": null,
   "private": true,
@@ -17,6 +22,8 @@
     "react-native-modal-selector": "^1.0.0",
     "react-native-ui-stepper": "^1.2.4",
     "react-navigation": "2.18.1",
-    "tcomb-form-native": "^0.6.20"
+    "tcomb-form-native": "^0.6.20",
+    "react-native-communications": "2.2.1",
+    "typeface-libre-franklin": "0.0.54"
   }
 }

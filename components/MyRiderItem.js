@@ -1,9 +1,10 @@
-
 import React from 'react';
-import {StyleSheet, View, Text, TextInput, Button, Alert, Icon, TouchableOpacity, AsyncStorage} from 'react-native';
+import {Image, StyleSheet, View, Text, TextInput, Button, Alert, Icon, TouchableOpacity} from 'react-native';
 import * as firebase from 'firebase';
+import Communications from 'react-native-communications';
 
-export default class RideItem extends React.Component {
+
+export default class MyRiderItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,67 +17,57 @@ export default class RideItem extends React.Component {
       rider: '',
       riderid: '',
       status: '',
-      ride_id: ''
-    }
-
-    if (!firebase.apps.length) {
-      firebase.initializeApp(ApiKeys.FirebaseConfig);
+      ride_id: '',
+      phone: 0
     }
   }
 
   componentWillMount() {
-      const { campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id } = this.props
+      const { campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, phone } = this.props
 
-      this.setState({ campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id })
+      this.setState({ campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, phone })
   }
 
   componentWillReceiveProps(nextProps) {
-      const { campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id } = nextProps
+      const { campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, phone } = nextProps
 
-      this.setState({ campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id })
+      this.setState({ campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, phone })
   }
 
-
-
-async onPickup() {
-  Alert.alert('Pick Up!')
-
-  try {
-    const retrievedItem = await AsyncStorage.getItem("@User");
-    const item = JSON.parse(retrievedItem);
-
-    firebase.database().ref('rides/' + this.state.ride_id).update({
-      driverid: item.eid,
-      status: 2}).then(() => {}, (error) => {Alert.alert(error.message)});
-
-  } catch (error) {
-    console.log(error.message);
+  onDropOff() {
+    Alert.alert('DropOff!')
   }
 
-}
-
-onNoShow() {
-  Alert.alert('No Show!')
-
-  try {
-    firebase.database().ref('rides/' + this.state.ride_id).update({
-      status: 5}).then(() => {}, (error) => {Alert.alert(error.message)});
-
-  } catch (error) {
-    console.log(error.message);
+  onNoShow() {
+    Alert.alert('No Show!')
   }
-}
+    
+  onPhoneCallPress = (phoneNumber) => {
+    Communications.phonecall(phoneNumber, true);
+  }
+   onMapPress = (dropoff) => {
+    Communications.web('https://www.google.com/maps/search/?api=1&query=' + dropoff)
+  }    
 
 
   render() {
       return(
-        <View style={styles.rideItemComponent}>
+        <View style={styles.MyRiderComponent}>
             <View style={styles.topBar}>
                 <Text style={styles.topBarText}>Time | {this.state.rider}</Text>
+          
+                <TouchableOpacity style={styles.handView} onPress={this.onPhoneCallPress.bind(this, String(this.state.phone))}>
+                <Image
+                  source={require('../assets/icons/phone.png')}
+                  style={styles.phoneCall}
+                />
+              </TouchableOpacity>
+          
                 <View style={styles.handView}>
                 <Image source={require('../assets/images/HandicapTemp.png')} style={styles.handicap} />
                 </View>
             </View>
+            
             <View style={styles.locations}>
                 <Image source={require('../assets/images/TravelDotsTemp.png')} style={styles.locationImage} />
                 <View style={styles.locationTexts}>
@@ -84,23 +75,32 @@ onNoShow() {
                     <Text numberOfLines={1} style={styles.locationTextInd}>{this.state.dropoff}</Text>
                 </View>
             </View>
+
             <View style={styles.buttonView}>
                 <View style={styles.outlinedButton}>
-                    <Button color='#E87636' title='Pick Up' onPress={this.onPickup.bind(this)}/>
+                    <Button color='#E87636' title='DropOff' onPress={this.onDropoff}/>
                 </View>
                 <View style={styles.outlinedButton}>
-                    <Button color='#E87636' title='No Show' onPress={this.onNoShow.bind(this)}/>
+                    <Button color='#E87636' title='No Show' onPress={this.onNoShow}/>
+
                 </View>
             </View>
+
+            <View stlye={styles.infoButtons}>
+              <TouchableOpacity onPress={this.onMapPress.bind(this, this.state.dropoff)}>
+                <Text style={styles.infoText}>View Route</Text>
+              </TouchableOpacity>
+            </View>
+
         </View>
-        
     )
   }
 
 }
 
 const styles = StyleSheet.create({
-  rideItemComponent: {
+
+  MyRiderComponent: {
       borderRadius: 15,
       backgroundColor: '#fff',
       paddingTop: '3%',
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
       marginBottom: '10%',
   },
   buttonView: {
-      flex: 1,
+      flex: 2,
       flexDirection: 'row',
       marginLeft: '4%',
       marginRight: '4%',
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
       height: '100%',
       width: '100%',
       resizeMode: 'contain',
-  },
+  },    
   locations: {
       flexDirection: 'row',
       flex: 2,
@@ -169,5 +169,19 @@ const styles = StyleSheet.create({
       width: '100%',
       resizeMode: 'contain',
 
-  }    
+  }, 
+  phoneCall: {
+      height: '100%',
+      width: '100%',
+      resizeMode: 'contain',
+  },
+  infoButtons: {
+      paddingLeft: '5%',
+  },
+  infoText: {
+      paddingLeft: '5%',
+      fontFamily: 'libre-franklin-semibold',
+      color: '#E87636',
+  }
+    
 });

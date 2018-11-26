@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, TextInput, Platform, AsyncStorage, ScrollView, Alert, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
+import { Image, ImageBackground, TextInput, Platform, AsyncStorage, ScrollView, Alert, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { WebBrowser } from 'expo';
 
 
@@ -130,25 +130,22 @@ export default class HomeScreen extends React.Component {
     const { navigate } = this.props.navigation;
 
     return (
+      <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
       <View style={styles.container}>
 
         <Image source={require('../assets/images/surewalk.png')} style={styles.logo} />
-        <View
-          style={{ marginBottom: 100 }}
-        >
-          <Form ref={c => this._form = c} type={User} options={options} />
-        </View>
 
-        <View style={{ alignItems: 'center' }}>
-          <TouchableOpacity
-            onPress={this.handleSubmit}
-            style={styles.button}
-          >
-            <Text style={styles.buttonTxt}>Start Walking Surely</Text>
-          </TouchableOpacity>
-        </View>
-
+        <Form ref={c => this._form = c} type={User} options={options} />
+        <Button
+          title="Start Walking Surely"
+          color="#fff"
+          fontSize="10"
+          fontFamily='libre-franklin'
+          buttonStyle={styles.button}
+          onPress={this.handleSubmit}
+        />
       </View>
+      </ImageBackground>
     );
   }
 }
@@ -169,10 +166,10 @@ const formStyles = {
   },
   controlLabel: {
     normal: {
-      color: '#E87636',
+      color: '#fff',
       fontSize: 18,
+      fontFamily: 'libre-franklin',
       marginBottom: 7,
-      fontWeight: '600'
     },
     // the style applied when a validation error occours
     error: {
@@ -196,19 +193,21 @@ const options = {
   stylesheet: formStyles,
 }
 const styles = StyleSheet.create({
+ containerImg: {
+    width: '100%',
+    height: '100%',  
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'stretch',
-
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   logo: {
     flex: 1,
     width: '60%',
     height: '60%',
     resizeMode: 'contain',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    tintColor: 'white',
   },
   button: {
     backgroundColor: "#E87636",
@@ -228,5 +227,4 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
   }
-
 });

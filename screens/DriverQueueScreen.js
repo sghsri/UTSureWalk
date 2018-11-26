@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image,Platform,ScrollView,StyleSheet,Text,TouchableOpacity,View,FlatList,Button} from 'react-native';
+import {Image, ImageBackground, Platform,ScrollView,StyleSheet,Text,TouchableOpacity,View,FlatList,Button} from 'react-native';
 import { WebBrowser } from 'expo';
 import ApiKeys from '../constants/ApiKeys'
 import * as firebase from 'firebase';
@@ -139,20 +139,22 @@ export default class DriverQueueScreen extends React.Component {
     const { navigate } = this.props.navigation;
 
     return (
-
-      <View style={styles.container}>
-        <Text>Driver Queue</Text>
-
-        <FlatList
-            data={this.state.riders}
-            extraData={this.state.refresh}
-            renderItem={this.renderItem}
-            keyExtractor={(item, index) => item.ride_id}
-          />
-        <Button title= "< Home" onPress={() =>
-            navigate('Main', {})
+        
+      <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
+          <View style={styles.container}>
+            <Button title= "< Home" onPress={() =>
+                navigate('Main', {})
             } />
-      </View>
+            <FlatList
+              data={this.state.riders}
+              extraData={this.state.refresh}
+              renderItem={this.renderItem}
+              keyExtractor={(item, index) => item.ride_id}
+            />
+            
+          </View>
+      </ImageBackground>
+
 
     );
   }
@@ -160,10 +162,13 @@ export default class DriverQueueScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  containerImg: {
+    width: '100%',
+    height: '100%',  
+  },
   container: {
     flex: 1,
     paddingTop: '10%',
-    backgroundColor: '#E87636',
     paddingLeft: '5%',
     paddingRight: '5%',
   },
