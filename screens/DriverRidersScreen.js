@@ -123,6 +123,9 @@ const styles = StyleSheet.create({
     paddingLeft: '5%',
     paddingRight: '5%',  
   },
+  contentContainer: {
+    paddingTop: 30,
+  },
   listItemContainer: {
     backgroundColor: '#fff',
     margin: 5,
