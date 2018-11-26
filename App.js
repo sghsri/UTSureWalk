@@ -60,7 +60,8 @@ export default class App extends React.Component {
         // to remove this if you are not using it in your app
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
         'libre-franklin': require('./assets/fonts/LibreFranklin-Regular.ttf'),
-        'libre-franklin-bold': require('./assets/fonts/LibreFranklin-Bold.ttf'),    
+        'libre-franklin-bold': require('./assets/fonts/LibreFranklin-Bold.ttf'),
+        'libre-franklin-semibold': require('./assets/fonts/LibreFranklin-SemiBold.ttf'),
       }),
     ]);
   };

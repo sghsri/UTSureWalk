@@ -53,8 +53,8 @@ export default class RideItem extends React.Component {
             <View style={styles.locations}>
                 <Image source={require('../assets/images/TravelDotsTemp.png')} style={styles.locationImage} />
                 <View style={styles.locationTexts}>
-                    <Text style={styles.locationTextInd}>Pickup: {this.state.pickup}</Text>
-                    <Text style={styles.locationTextInd}>Dropoff: {this.state.dropoff}</Text>
+                    <Text numberOfLines={1} style={styles.locationTextInd}>{this.state.pickup}</Text>
+                    <Text numberOfLines={1} style={styles.locationTextInd}>{this.state.dropoff}</Text>
                 </View>
             </View>
             <View style={styles.buttonView}>
@@ -76,16 +76,16 @@ const styles = StyleSheet.create({
   rideItemComponent: {
       borderRadius: 15,
       backgroundColor: '#fff',
-      paddingTop: '2%',
-      paddingBottom: '5%',
+      paddingTop: '3%',
+      paddingBottom: '9%',
       marginBottom: '10%',
   },
   buttonView: {
       flex: 1,
       flexDirection: 'row',
-      marginLeft: '3%',
-      marginRight: '3%',
-      marginBottom: '10%',
+      marginLeft: '4%',
+      marginRight: '4%',
+      marginBottom: '5%',
   },
   outlinedButton: {
       flex: 1,
@@ -124,16 +124,20 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       flex: 2,
       marginBottom: '2%',
+      paddingLeft: '2%',
+      paddingRight: '5%'
+
   },
   locationTexts: {
-      justifyContent: 'space-between',
+      flex: 1,
+      justifyContent: 'space-around',
   },
   locationTextInd: {
       fontFamily: 'libre-franklin',
       fontSize: 18,
   },
   locationImage: {
-      flex: .2,
+      flex: .1,
       height: '100%',
       width: '100%',
       resizeMode: 'contain',

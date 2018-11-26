@@ -55,6 +55,14 @@ export default class MyRiderItem extends React.Component {
         <View style={styles.MyRiderComponent}>
             <View style={styles.topBar}>
                 <Text style={styles.topBarText}>Time | {this.state.rider}</Text>
+          
+                <TouchableOpacity style={styles.handView} onPress={this.onPhoneCallPress.bind(this, String(this.state.phone))}>
+                <Image
+                  source={require('../assets/icons/phone.png')}
+                  style={styles.phoneCall}
+                />
+              </TouchableOpacity>
+          
                 <View style={styles.handView}>
                 <Image source={require('../assets/images/HandicapTemp.png')} style={styles.handicap} />
                 </View>
@@ -63,8 +71,8 @@ export default class MyRiderItem extends React.Component {
             <View style={styles.locations}>
                 <Image source={require('../assets/images/TravelDotsTemp.png')} style={styles.locationImage} />
                 <View style={styles.locationTexts}>
-                    <Text style={styles.locationTextInd}>Pickup: {this.state.pickup}</Text>
-                    <Text style={styles.locationTextInd}>Dropoff: {this.state.dropoff}</Text>
+                    <Text numberOfLines={1} style={styles.locationTextInd}>{this.state.pickup}</Text>
+                    <Text numberOfLines={1} style={styles.locationTextInd}>{this.state.dropoff}</Text>
                 </View>
             </View>
 
@@ -78,22 +86,12 @@ export default class MyRiderItem extends React.Component {
                 </View>
             </View>
 
-            <View stlye={styles.callMap}>
-                <TouchableOpacity onPress={this.onPhoneCallPress.bind(this, String(this.state.phone))}>
-                <Image
-                  source={require('../assets/icons/phone.png')}
-                  fadeDuration={0}
-                  style={styles.phoneCall}
-                />
-              </TouchableOpacity>
+            <View stlye={styles.infoButtons}>
               <TouchableOpacity onPress={this.onMapPress.bind(this, this.state.dropoff)}>
-                <Image 
-                  source={require('../assets/icons/map.png')}
-                  fadeDuration={0}
-                  style={styles.phoneCall}
-                />
+                <Text style={styles.infoText}>View Route</Text>
               </TouchableOpacity>
             </View>
+
         </View>
     )
   }
@@ -105,15 +103,15 @@ const styles = StyleSheet.create({
   MyRiderComponent: {
       borderRadius: 15,
       backgroundColor: '#fff',
-      paddingTop: '2%',
-      paddingBottom: '5%',
+      paddingTop: '3%',
+      paddingBottom: '9%',
       marginBottom: '10%',
   },
   buttonView: {
       flex: 2,
       flexDirection: 'row',
-      marginLeft: '3%',
-      marginRight: '3%',
+      marginLeft: '4%',
+      marginRight: '4%',
       marginBottom: '5%',
   },
   outlinedButton: {
@@ -125,7 +123,6 @@ const styles = StyleSheet.create({
       marginLeft: '2%',
       marginRight: '2%',
       marginTop: '2%',
-      marginBottom: '2%',
   },
   topBar: {
       flexDirection: 'row',
@@ -154,28 +151,37 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       flex: 2,
       marginBottom: '2%',
+      paddingLeft: '2%',
+      paddingRight: '5%'
+
   },
   locationTexts: {
-      justifyContent: 'space-between',
+      flex: 1,
+      justifyContent: 'space-around',
   },
   locationTextInd: {
       fontFamily: 'libre-franklin',
       fontSize: 18,
   },
   locationImage: {
-      flex: .2,
+      flex: .1,
       height: '100%',
       width: '100%',
       resizeMode: 'contain',
 
   }, 
   phoneCall: {
-      width: 25,
-      height: 25,
-      alignSelf: 'flex-end'
+      height: '100%',
+      width: '100%',
+      resizeMode: 'contain',
   },
-  callMap: {
-      flexDirection: 'row',
+  infoButtons: {
+      paddingLeft: '5%',
   },
+  infoText: {
+      paddingLeft: '5%',
+      fontFamily: 'libre-franklin-semibold',
+      color: '#E87636',
+  }
     
 });
