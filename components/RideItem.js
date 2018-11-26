@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {StyleSheet, View, Text, TextInput, Button, Alert, Icon, TouchableOpacity, AsyncStorage} from 'react-native';
+import {Image, StyleSheet, View, Text, TextInput, Button, Alert, Icon, TouchableOpacity, AsyncStorage} from 'react-native';
 import * as firebase from 'firebase';
 
 export default class RideItem extends React.Component {
