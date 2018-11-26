@@ -1,9 +1,11 @@
 import React from 'react';
-import {Image,Platform,ScrollView,StyleSheet,Text,TouchableOpacity,View,FlatList,Button} from 'react-native';
+import {Image, ImageBackground, Platform,ScrollView,StyleSheet,Text,TouchableOpacity,View,FlatList,Button} from 'react-native';
 import { WebBrowser } from 'expo';
 import ApiKeys from '../constants/ApiKeys'
 import * as firebase from 'firebase';
 import Communications from 'react-native-communications';
+import MyRiderItem from '../components/MyRiderItem'
+
 
 
 export default class DriverRidersScreen extends React.Component {
@@ -55,6 +57,26 @@ export default class DriverRidersScreen extends React.Component {
       })
 
   }
+    
+    
+    renderItem({ item }) {
+
+        return (
+            <MyRiderItem
+                campus={item.campus}
+                dropoff={item.dropoff}
+                note={item.note}
+                numriders= {item.numriders}
+                pickup= {item.pickup}
+                rider={item.rider}
+                riderid = {item.riderid}
+                status  = {item.status}
+                ride_id = {item.ride_id}
+                phone = {item.phone}
+            />
+        )
+    }
+    
 
   static navigationOptions = {
     header: null,
@@ -71,55 +93,38 @@ export default class DriverRidersScreen extends React.Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
+      <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
+          <View style={styles.container}>
+            <FlatList data={this.state.riders}
 
-      <View style={styles.container}>
-        <Text>My Riders</Text>
+                renderItem={this.renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              />
 
-        <FlatList data={this.state.riders}
-          renderItem={
-            ({item}) =>
-            <View style={styles.listItemContainer}>
-              <Text style={styles.listItem}>
-                {item.rider}
-              </Text>
-              <Text style={styles.listItemSmall}>
-                Status: {item.status}
-              </Text>
-              <Text style={styles.listItemSmall}>
-                Dropoff: {item.dropoff}
-              </Text>
-              <TouchableOpacity onPress={this.onPhoneCallPress.bind(this, String(item.phone))}>
-                <Image
-                  source={require('../assets/icons/phone.png')}
-                  fadeDuration={0}
-                  style={styles.phoneCall}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.onMapPress.bind(this, item.dropoff)}>
-                <Image
-                  source={require('../assets/icons/map.png')}
-                  fadeDuration={0}
-                  style={styles.phoneCall}
-                />
-              </TouchableOpacity>
-            </View>
-          }
-          keyExtractor={(item, index) => index.toString()}
-          />
-          <Button title= "< Home" onPress={() =>
-              navigate('Rider', {})
-              } />
-      </View>
 
+              <Button title= "< Home" onPress={() =>
+                  navigate('Main', {})
+                  } />
+          </View>
+      </ImageBackground>
     );
   }
 
 }
 
 const styles = StyleSheet.create({
+  containerImg: {
+    width: '100%',
+    height: '100%',  
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    paddingTop: '10%',
+    paddingLeft: '5%',
+    paddingRight: '5%',  
+  },
+  contentContainer: {
+    paddingTop: 30,
   },
   listItemContainer: {
     backgroundColor: '#fff',
