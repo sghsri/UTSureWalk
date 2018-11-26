@@ -131,24 +131,26 @@ export default class HomeScreen extends React.Component {
 
     return (
       <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
-      <View style={styles.container}>
+        <View style={styles.container}>
 
-        <Image source={require('../assets/images/surewalk.png')} style={styles.logo} />
+          <Image source={require('../assets/images/surewalk.png')} style={styles.logo} />
 
-        <Form ref={c => this._form = c} type={User} options={options} />
-        <Button
-          title="Start Walking Surely"
-          color="#fff"
-          fontSize="10"
-          fontFamily='libre-franklin'
-          buttonStyle={styles.button}
-          onPress={this.handleSubmit}
-        />
-      </View>
+          <Form ref={c => this._form = c} type={User} options={options} />
+          <Button
+            title="Start Walking Surely"
+            color="#fff"
+            fontSize="10"
+            fontFamily='libre-franklin'
+            buttonStyle={styles.button}
+            onPress={this.handleSubmit}
+          />
+        </View>
       </ImageBackground>
     );
   }
 }
+
+t.form.Form.stylesheet.textbox.normal.color = 'white';
 
 const formStyles = {
   ...Form.stylesheet,
@@ -164,6 +166,14 @@ const formStyles = {
       marginRight: 10,
     }
   },
+  // textbox: {
+  //   normal: {
+  //     color: 'white'
+  //   },
+  //   error: {
+  //     color: 'white'
+  //   }
+  // },
   controlLabel: {
     normal: {
       color: '#fff',
@@ -193,9 +203,9 @@ const options = {
   stylesheet: formStyles,
 }
 const styles = StyleSheet.create({
- containerImg: {
+  containerImg: {
     width: '100%',
-    height: '100%',  
+    height: '100%',
   },
   container: {
     flex: 1,
@@ -210,7 +220,7 @@ const styles = StyleSheet.create({
     tintColor: 'white',
   },
   button: {
-    backgroundColor: "#E87636",
+    backgroundColor: "white",
     position: 'absolute',
     bottom: 0,
     margin: 20,
@@ -221,7 +231,7 @@ const styles = StyleSheet.create({
   },
   buttonTxt: {
     alignSelf: 'center',
-    color: 'white',
+    color: '#E87636',
     fontSize: 16,
     fontWeight: '600',
     paddingTop: 5,
