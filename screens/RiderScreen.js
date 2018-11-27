@@ -338,19 +338,28 @@ export default class RiderScreen extends React.Component {
                 initValue="Source"
                 selectStyle={{ borderColor: 'white', padding: 15 }}
                 selectTextStyle={{ fontSize: 20, color: 'white' }}
-                optionStyle={{ padding: 10, }}
+                optionStyle={{ padding: 10 }}
                 placeholderTextColor='white'
-                optionTextStyle={{ fontSize: 15, color: '#E87636' }}
+                optionTextStyle={{ fontSize: 15, color: 'white', fontWeight: '400' }}
+                optionContainerStyle={{ backgroundColor: 'transparent' }}
+                cancelTextStyle={{ fontWeight: '600', color: '#E87636' }}
+                cancelText={'Cancel'}
+                cancelStyle={{ borderRadius: 100 }}
                 onChange={(option) => { this.state.request.pickup = option.label; console.log(this.state.user); }} />
 
               <Text style={styles.title}>Where do you want to go?</Text>
               <ModalSelector
                 data={data}
                 initValue="Destination"
-                placeholderTextColor='white'
-                selectStyle={{ borderColor: 'white', padding: 15, marginBottom: 20 }}
+                selectStyle={{ borderColor: 'white', padding: 15 }}
                 selectTextStyle={{ fontSize: 20, color: 'white' }}
-                sectionTextStyle={{ padding: 20 }}
+                optionStyle={{ padding: 10 }}
+                placeholderTextColor='white'
+                optionTextStyle={{ fontSize: 15, color: 'white', fontWeight: '600' }}
+                optionContainerStyle={{ backgroundColor: 'transparent' }}
+                cancelTextStyle={{ fontWeight: '600', color: '#E87636' }}
+                cancelText={'Cancel'}
+                cancelStyle={{ borderRadius: 100 }}
                 onChange={(option) => { this.state.request.dropoff = option.label; }} />
               <Text style={styles.title}>How many Riders?</Text>
 

@@ -9,9 +9,8 @@ const cheerio = require('react-native-cheerio')
 const Form = t.form.Form;
 
 const User = t.struct({
-  name: t.String,
   eid: t.String,
-  phone: t.Number,
+  // phone: t.Number,
 });
 
 
@@ -63,7 +62,7 @@ export default class LoginScreen extends React.Component {
           if (isUT) {
             var val = $('#results').text().replace(/\s/g, '');
             if (val.includes("SearchReturned")) {
-              this.openAlert('Invalid EID', 'Could not find a student with that EID');
+              this.openAlert();
             } else {
               console.log("wtf");
               //type of cart, capacity of cart, isDriver, eid, name, phone number
@@ -80,7 +79,7 @@ export default class LoginScreen extends React.Component {
                 .then(function (response) {
                   return response.json();
                 })
-                .then((myJson) => {
+                .then(function (myJson) {
                   var contains = false;
                   for (var key in myJson) {
                     if (myJson.hasOwnProperty(key)) {
@@ -92,39 +91,34 @@ export default class LoginScreen extends React.Component {
                       }
                     }
                   }
+
                   if (!contains) {
                     fetch('https://react-test-79a3b.firebaseio.com/users.json', {
                       method: 'POST',
                       body: JSON.stringify(user)
                     })
-                  } else {
-                    throw ('EID Already Exists', 'An Account with that EID has already been created');
                   }
                 }).then(function (renavigate) {
                   console.log("nav");
                   navigate('Rider', {});
                   console.log("navigated");
-                }).catch((title, message) => {
-                  this.openAlert(title, message);
                 });
             }
+
           } else {
-            this.openAlert('Invalid EID', 'Could not find a student with that EID');
+            this.openAlert();
           }
         });
-      } else {
-        this.openAlert('Invalid EID', 'Could not find a student with that EID');
       }
     } else {
-      this.openAlert('Invalid EID', 'Could not find a student with that EID');
+      this.openAlert();
     }
   }
 
-  openAlert(title, message) {
-    console.log('hello');
+  openAlert = () => {
     Alert.alert(
-      title,
-      message,
+      'Invalid EID',
+      'Could not find a student with that EID',
       [
         { text: 'OK', onPress: () => console.log('OK Pressed') },
       ],
