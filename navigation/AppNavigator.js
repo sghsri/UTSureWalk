@@ -13,7 +13,7 @@ export default createSwitchNavigator({
   // You could add another route here for authentication.
   // Read more at https://reactnavigation.org/docs/en/auth-flow.html
 
-  // Login: { screen: LoginScreen },
+  Login: { screen: LoginScreen },
   // SignUp: {screen : SignUpScreen},
   Main: { screen: HomeScreen },
   Rider: RiderScreen,

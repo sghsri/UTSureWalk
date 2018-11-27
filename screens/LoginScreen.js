@@ -10,7 +10,6 @@ const Form = t.form.Form;
 
 const User = t.struct({
   eid: t.String,
-  // phone: t.Number,
 });
 
 
@@ -53,72 +52,47 @@ export default class LoginScreen extends React.Component {
     if (value) {
       var eid = value.eid.toLowerCase();
       if ((/\d/g).test(eid)) {
-        var url = `https://directory.utexas.edu/index.php?q=${eid}&scope=all&submit=Search`;
-        fetch(url).then((response) => {
-          return response.text();
-        }).then((html) => {
-          const $ = cheerio.load(html);
-          var isUT = $('dir_info');
-          if (isUT) {
-            var val = $('#results').text().replace(/\s/g, '');
-            if (val.includes("SearchReturned")) {
-              this.openAlert();
-            } else {
-              console.log("wtf");
-              //type of cart, capacity of cart, isDriver, eid, name, phone number
-              var user = {
-                eid: eid,
-                name: value.name,
-                phone: value.phone,
-                cart: "",
-                capacity: 0,
-                isDriver: 0,
+        fetch('https://react-test-79a3b.firebaseio.com/users.json')
+          .then(function (response) {
+            return response.json();
+          })
+          .then((myJson) => {
+            var contains = false;
+            for (var key in myJson) {
+              if (myJson.hasOwnProperty(key)) {
+                var user = myJson[key];
+                console.log(user);
+                if (user.eid === eid) {
+                  contains = true;
+                  this.storeItem("@User", user);
+                  break;
+                }
               }
-              this.storeItem("@User", user);
-              fetch('https://react-test-79a3b.firebaseio.com/users.json')
-                .then(function (response) {
-                  return response.json();
-                })
-                .then(function (myJson) {
-                  var contains = false;
-                  for (var key in myJson) {
-                    if (myJson.hasOwnProperty(key)) {
-                      var val = myJson[key];
-                      console.log(val);
-                      if (val.eid === eid) {
-                        contains = true;
-                        break;
-                      }
-                    }
-                  }
-
-                  if (!contains) {
-                    fetch('https://react-test-79a3b.firebaseio.com/users.json', {
-                      method: 'POST',
-                      body: JSON.stringify(user)
-                    })
-                  }
-                }).then(function (renavigate) {
-                  console.log("nav");
-                  navigate('Rider', {});
-                  console.log("navigated");
-                });
             }
-
-          } else {
-            this.openAlert();
-          }
-        });
+            return contains;
+          }).then((renavigate) => {
+            if (renavigate) {
+              console.log("nav");
+              navigate('Rider', {});
+              console.log("navigated");
+            } else {
+              this.openAlert('No account for that EID', 'Please make an account for that EID');
+            }
+          }).catch((error) => {
+            this.openAlert('Invalid EID', 'Please input a valid EID');
+          });
+      } else {
+        this.openAlert('Invalid EID', 'Please input a valid EID');
       }
     } else {
-      this.openAlert();
+      this.openAlert('Invalid EID', 'Please input a valid EID');
     }
   }
 
-  openAlert = () => {
+  openAlert(title, message) {
     Alert.alert(
-      'Invalid EID',
-      'Could not find a student with that EID',
+      title,
+      message,
       [
         { text: 'OK', onPress: () => console.log('OK Pressed') },
       ],
@@ -134,16 +108,17 @@ export default class LoginScreen extends React.Component {
           <Image source={require('../assets/images/surewalk.png')} style={styles.logo} />
 
           <Form ref={c => this._form = c} type={User} options={options} />
-          <Button
-            title="Start Walking Surely"
-            color="#fff"
-            fontSize="10"
-            fontFamily='libre-franklin'
-            buttonStyle={styles.button}
-            onPress={this.handleSubmit}
-          />
+
+
+          <TouchableOpacity style={styles.button} title="Login" onPress={() => this.handleSubmit()}>
+            <Text style={styles.buttonTxt}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.registerButton} title="Register" onPress={() => navigate('Main', {})}>
+            <Text style={styles.registerText}>Make Account</Text>
+
+          </TouchableOpacity>
         </View>
-      </ImageBackground>
+      </ImageBackground >
     );
   }
 }
@@ -209,6 +184,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'stretch',
+    flexDirection: 'column',
+    paddingTop: 30,
+    padding: 20,
   },
   logo: {
     flex: 1,
@@ -219,18 +198,37 @@ const styles = StyleSheet.create({
     tintColor: 'white',
   },
   button: {
-    backgroundColor: "white",
-    position: 'absolute',
-    bottom: 0,
+    backgroundColor: 'white',
     margin: 20,
-    marginTop: 30,
     padding: 10,
+    width: '60%',
+    alignSelf: 'center',
+    marginBottom: 10,
     marginRight: 5,
     borderRadius: 50
   },
   buttonTxt: {
     alignSelf: 'center',
     color: '#E87636',
+    fontSize: 16,
+    fontWeight: '600',
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+
+  registerButton: {
+    backgroundColor: '#E87636',
+    margin: 20,
+    padding: 10,
+    width: '60%',
+    alignSelf: 'center',
+    marginBottom: 10,
+    marginRight: 5,
+    borderRadius: 50
+  },
+  registerText: {
+    alignSelf: 'center',
+    color: 'white',
     fontSize: 16,
     fontWeight: '600',
     paddingTop: 5,

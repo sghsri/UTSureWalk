@@ -23,7 +23,6 @@ export default class RiderScreen extends React.Component {
   constructor(props, ctx) {
     super(props, ctx);
     var user = this.retrieveItem('@User');
-    console.log(user);
     this.state = {
       request: {
         User: user,
@@ -76,6 +75,7 @@ export default class RiderScreen extends React.Component {
     try {
       const retrievedItem = await AsyncStorage.getItem(key);
       const item = JSON.parse(retrievedItem);
+      console.log(item);
       return item;
     } catch (error) {
       console.log(error.message);
@@ -335,12 +335,12 @@ export default class RiderScreen extends React.Component {
               <Text style={styles.title}>Where are you?</Text>
               <ModalSelector
                 data={data}
-                initValue="Source"
+                initValue="Destination"
                 selectStyle={{ borderColor: 'white', padding: 15 }}
                 selectTextStyle={{ fontSize: 20, color: 'white' }}
                 optionStyle={{ padding: 10 }}
                 placeholderTextColor='white'
-                optionTextStyle={{ fontSize: 15, color: 'white', fontWeight: '400' }}
+                optionTextStyle={{ fontSize: 15, color: 'white', fontWeight: '600' }}
                 optionContainerStyle={{ backgroundColor: 'transparent' }}
                 cancelTextStyle={{ fontWeight: '600', color: '#E87636' }}
                 cancelText={'Cancel'}
@@ -399,7 +399,7 @@ export default class RiderScreen extends React.Component {
                 <Text style={styles.buttonTxt}>Request a Ride</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.devButton} title="<- Home" onPress={() => navigate('Main', {})}>
+            <TouchableOpacity style={styles.devButton} title="Login" onPress={() => navigate('Login', {})}>
 
               <Text style={styles.buttonTxt}>Home</Text>
             </TouchableOpacity>

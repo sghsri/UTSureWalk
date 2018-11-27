@@ -155,6 +155,7 @@ export default class LoginScreen extends React.Component {
 }
 
 t.form.Form.stylesheet.textbox.normal.color = 'white';
+t.form.Form.stylesheet.textbox.error.color = 'white';
 
 const formStyles = {
   ...Form.stylesheet,
@@ -188,7 +189,7 @@ const formStyles = {
     },
     // the style applied when a validation error occours
     error: {
-      color: '#F44336',
+      color: 'white',
       fontSize: 18,
       marginBottom: 7,
       fontWeight: '600'

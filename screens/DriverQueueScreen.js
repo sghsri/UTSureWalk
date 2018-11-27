@@ -1,12 +1,12 @@
 import React from 'react';
-import {Image, ImageBackground, Platform,ScrollView,StyleSheet,Text,TouchableOpacity,View,FlatList,Button} from 'react-native';
+import { Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, FlatList, Button } from 'react-native';
 import { WebBrowser } from 'expo';
 import ApiKeys from '../constants/ApiKeys'
 import * as firebase from 'firebase';
 import RideItem from '../components/RideItem'
 
 export default class DriverQueueScreen extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -30,7 +30,7 @@ export default class DriverQueueScreen extends React.Component {
           Object
             .keys(data)
             .forEach(ride_key => {
-              if(data[ride_key].status == 1) {
+              if (data[ride_key].status == 1) {
                 //initRiders.unshift(data[ride_key]);
 
                 initRiders.unshift({
@@ -69,23 +69,23 @@ export default class DriverQueueScreen extends React.Component {
   }
 
 
-    renderItem({ item }) {
+  renderItem({ item }) {
 
-        return (
-            <RideItem
-                campus={item.campus}
-                driverid= {item.driverid}
-                dropoff={item.dropoff}
-                note={item.note}
-                numriders= {item.numriders}
-                pickup= {item.pickup}
-                rider={item.rider}
-                riderid = {item.riderid}
-                status  = {item.status}
-                ride_id = {item.ride_id}
-            />
-        )
-    }
+    return (
+      <RideItem
+        campus={item.campus}
+        driverid={item.driverid}
+        dropoff={item.dropoff}
+        note={item.note}
+        numriders={item.numriders}
+        pickup={item.pickup}
+        rider={item.rider}
+        riderid={item.riderid}
+        status={item.status}
+        ride_id={item.ride_id}
+      />
+    )
+  }
 
   static navigationOptions = {
     header: null,
@@ -99,19 +99,19 @@ export default class DriverQueueScreen extends React.Component {
     const { navigate } = this.props.navigation;
 
     return (
-        
+
       <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
-          <View style={styles.container}>
-            <Button title= "< Home" onPress={() =>
-                navigate('Main', {})
-            } />
-            <FlatList
-                data={this.state.riders}
-                renderItem={this.renderItem}
-                keyExtractor={(item, index) => index.toString()}
-              />
-            
-          </View>
+        <View style={styles.container}>
+          <Button title="< Home" onPress={() =>
+            navigate('Login', {})
+          } />
+          <FlatList
+            data={this.state.riders}
+            renderItem={this.renderItem}
+            keyExtractor={(item, index) => index.toString()}
+          />
+
+        </View>
       </ImageBackground>
 
 
@@ -123,7 +123,7 @@ export default class DriverQueueScreen extends React.Component {
 const styles = StyleSheet.create({
   containerImg: {
     width: '100%',
-    height: '100%',  
+    height: '100%',
   },
   container: {
     flex: 1,
