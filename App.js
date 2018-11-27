@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, ImageBackground, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import MainTabNavigator from './navigation/MainTabNavigator';
@@ -24,8 +24,8 @@ export default class App extends React.Component {
   }
 
   onAuthStateChanged = (user) => {
-    this.setState({isAuthenticationReady : true});
-    this.setState({isAuthenticated : !!user});
+    this.setState({ isAuthenticationReady: true });
+    this.setState({ isAuthenticated: !!user });
   }
 
   render() {
@@ -81,5 +81,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  containerImg: {
+    width: '100%',
+    elevation: -1,
+    height: '100%',
   },
 });

@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   View,
+  ImageBackground,
   Text,
   Button,
   Picker,
@@ -22,7 +23,6 @@ export default class RiderScreen extends React.Component {
   constructor(props, ctx) {
     super(props, ctx);
     var user = this.retrieveItem('@User');
-    console.log(user);
     this.state = {
       request: {
         User: user,
@@ -75,6 +75,7 @@ export default class RiderScreen extends React.Component {
     try {
       const retrievedItem = await AsyncStorage.getItem(key);
       const item = JSON.parse(retrievedItem);
+      console.log(item);
       return item;
     } catch (error) {
       console.log(error.message);
@@ -327,80 +328,102 @@ export default class RiderScreen extends React.Component {
     ];
     const { navigate } = this.props.navigation;
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <ScrollView>
-          <View style={styles.container}>
-            <Text style={styles.title}>Where are you?</Text>
-            <ModalSelector
-              data={data}
-              initValue="Source"
-              selectStyle={{ borderColor: 'grey', padding: 15 }}
-              selectTextStyle={{ fontSize: 20 }}
-              optionStyle={{ padding: 10, }}
-              optionTextStyle={{ fontSize: 15, color: '#E87636' }}
-              onChange={(option) => { alert(`${option.label}`); this.state.request.pickup = option.label; console.log(this.state.user); }} />
+      <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
+          <ScrollView>
+            <View style={styles.container}>
+              <Text style={styles.title}>Where are you?</Text>
+              <ModalSelector
+                data={data}
+                initValue="Destination"
+                selectStyle={{ borderColor: 'white', padding: 15 }}
+                selectTextStyle={{ fontSize: 20, color: 'white' }}
+                optionStyle={{ padding: 10 }}
+                placeholderTextColor='white'
+                optionTextStyle={{ fontSize: 15, color: 'white', fontWeight: '600' }}
+                optionContainerStyle={{ backgroundColor: 'transparent' }}
+                cancelTextStyle={{ fontWeight: '600', color: '#E87636' }}
+                cancelText={'Cancel'}
+                cancelStyle={{ borderRadius: 100 }}
+                onChange={(option) => { this.state.request.pickup = option.label; console.log(this.state.user); }} />
 
-            <Text style={styles.title}>Where do you want to go?</Text>
-            <ModalSelector
-              data={data}
-              initValue="Destination"
-              placeholderTextColor='black'
-              selectStyle={{ borderColor: 'grey', padding: 15, marginBottom: 20 }}
-              selectTextStyle={{ fontSize: 20 }}
-              sectionTextStyle={{ padding: 20 }}
-              onChange={(option) => { alert(`${option.label}`); this.state.request.dropoff = option.label; }} />
-            <Text style={styles.title}>How many Riders?</Text>
+              <Text style={styles.title}>Where do you want to go?</Text>
+              <ModalSelector
+                data={data}
+                initValue="Destination"
+                selectStyle={{ borderColor: 'white', padding: 15 }}
+                selectTextStyle={{ fontSize: 20, color: 'white' }}
+                optionStyle={{ padding: 10 }}
+                placeholderTextColor='white'
+                optionTextStyle={{ fontSize: 15, color: 'white', fontWeight: '600' }}
+                optionContainerStyle={{ backgroundColor: 'transparent' }}
+                cancelTextStyle={{ fontWeight: '600', color: '#E87636' }}
+                cancelText={'Cancel'}
+                cancelStyle={{ borderRadius: 100 }}
+                onChange={(option) => { this.state.request.dropoff = option.label; }} />
+              <Text style={styles.title}>How many Riders?</Text>
 
-            <View
-              style={{ alignItems: 'center', marginBottom: 20 }}>
-              <UIStepper
-                displayValue={true}
-                maximumValue={6}
-                textColor='#E87636'
-                tintColor='#E87636'
-                borderColor='#E87636'
-                width={200}
-                height={40}
-                onValueChange={(value) => { this.state.request.numRiders = value; console.log(this.state.request.numRiders) }}
+              <View
+                style={{ alignItems: 'center', marginBottom: 20 }}>
+                <UIStepper
+                  displayValue={true}
+                  maximumValue={6}
+                  textColor='white'
+                  tintColor='white'
+                  borderColor='white'
+                  width={200}
+                  height={40}
+                  onValueChange={(value) => { this.state.request.numRiders = value; console.log(this.state.request.numRiders) }}
+                />
+              </View>
+
+              <Text style={styles.title}>Additional Information?</Text>
+
+              <TextInput
+                style={styles.searchInput}
+                placeholderTextColor='white'
+                borderColor='white'
+                onChangeText={text => this.state.request.notes = text}
+                value={this.state.notes}
               />
+
+              <TouchableOpacity
+                onPress={() =>
+                  fetch('https://react-test-79a3b.firebaseio.com/rides.json', {
+                    method: 'POST',
+                    body: JSON.stringify(this.state.request),
+                  })
+                }
+                style={styles.button}
+              >
+                <Text style={styles.buttonTxt}>Request a Ride</Text>
+              </TouchableOpacity>
             </View>
+            <TouchableOpacity style={styles.devButton} title="Login" onPress={() => navigate('Login', {})}>
 
-            <Text style={styles.title}>Additional Information?</Text>
-
-            <TextInput
-              style={styles.searchInput}
-              placeholderTextColor='black'
-              onChangeText={text => this.state.request.notes = text}
-              value={this.state.notes}
-            />
-
-            <TouchableOpacity
-              onPress={() =>
-                fetch('https://react-test-79a3b.firebaseio.com/rides.json', {
-                  method: 'POST',
-                  body: JSON.stringify(this.state.request),
-                })
-              }
-              style={styles.button}
-            >
-              <Text style={styles.buttonTxt}>Request a Ride</Text>
+              <Text style={styles.buttonTxt}>Home</Text>
             </TouchableOpacity>
-          </View>
-          <Button title="<- Home" onPress={() => navigate('Main', {})} />
-          <Button title="Driver ->" onPress={() => navigate('DriverQueue', {})} />
-        </ScrollView>
-      </KeyboardAvoidingView>
+            <TouchableOpacity style={styles.devButton} title="Driver ->" onPress={() => navigate('DriverQueue', {})}>
+              <Text style={styles.buttonTxt}>Driver</Text>
+
+            </TouchableOpacity>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  containerImg: {
+    width: '100%',
+    height: '100%',
+  },
   container: {
     justifyContent: 'space-between',
     alignItems: 'stretch',
     flexDirection: 'column',
-    marginTop: 30,
-    backgroundColor: 'white',
+    paddingTop: 30,
     padding: 20,
   },
   submit: {
@@ -415,14 +438,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginBottom: 10,
-    color: 'black',
+    color: 'white',
     fontSize: 16,
     textAlign: 'center',
     borderColor: 'grey',
     borderRadius: 5,
   },
   title: {
-    color: '#E87636',
+    color: 'white',
     padding: 10,
     textAlign: 'center',
     marginTop: 10,
@@ -430,7 +453,7 @@ const styles = StyleSheet.create({
     fontSize: 25
   },
   button: {
-    backgroundColor: "#E87636",
+    backgroundColor: "white",
     flex: 1,
     margin: 20,
     marginTop: 30,
@@ -438,9 +461,20 @@ const styles = StyleSheet.create({
     marginRight: 5,
     borderRadius: 50
   },
+  devButton: {
+    backgroundColor: "white",
+    flex: 1,
+    margin: 20,
+    width: '40%',
+    alignSelf: 'center',
+    marginTop: 10,
+    padding: 5,
+    marginRight: 5,
+    borderRadius: 50
+  },
   buttonTxt: {
     alignSelf: 'center',
-    color: 'white',
+    color: '#E87636',
     fontSize: 16,
     fontWeight: '600',
     paddingTop: 5,
