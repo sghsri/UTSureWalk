@@ -20,6 +20,10 @@ export default class MyRiderItem extends React.Component {
       ride_id: '',
       phone: 0
     }
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(ApiKeys.FirebaseConfig);
+    }
   }
 
   componentWillMount() {
@@ -34,20 +38,28 @@ export default class MyRiderItem extends React.Component {
       this.setState({ campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, phone })
   }
 
-  onDropOff() {
-    Alert.alert('DropOff!')
+  onDropoff() {
+
+    firebase
+      .database()
+      .ref('rides/' + this.state.ride_id)
+      .update({
+        status: 4
+      })
+      .then(() => {}, (error) => {Alert.alert(error.message)});
+
   }
 
   onNoShow() {
     Alert.alert('No Show!')
   }
-    
+
   onPhoneCallPress = (phoneNumber) => {
     Communications.phonecall(phoneNumber, true);
   }
    onMapPress = (dropoff) => {
     Communications.web('https://www.google.com/maps/search/?api=1&query=' + dropoff)
-  }    
+  }
 
 
   render() {
@@ -55,19 +67,19 @@ export default class MyRiderItem extends React.Component {
         <View style={styles.MyRiderComponent}>
             <View style={styles.topBar}>
                 <Text style={styles.topBarText}>Time | {this.state.rider}</Text>
-          
+
                 <TouchableOpacity style={styles.handView} onPress={this.onPhoneCallPress.bind(this, String(this.state.phone))}>
                 <Image
                   source={require('../assets/icons/phone.png')}
                   style={styles.phoneCall}
                 />
               </TouchableOpacity>
-          
+
                 <View style={styles.handView}>
                 <Image source={require('../assets/images/HandicapTemp.png')} style={styles.handicap} />
                 </View>
             </View>
-            
+
             <View style={styles.locations}>
                 <Image source={require('../assets/images/TravelDotsTemp.png')} style={styles.locationImage} />
                 <View style={styles.locationTexts}>
@@ -78,7 +90,7 @@ export default class MyRiderItem extends React.Component {
 
             <View style={styles.buttonView}>
                 <View style={styles.outlinedButton}>
-                    <Button color='#E87636' title='DropOff' onPress={this.onDropoff}/>
+                    <Button color='#E87636' title='DropOff' onPress={this.onDropoff.bind(this)}/>
                 </View>
                 <View style={styles.outlinedButton}>
                     <Button color='#E87636' title='No Show' onPress={this.onNoShow}/>
@@ -146,7 +158,7 @@ const styles = StyleSheet.create({
       height: '100%',
       width: '100%',
       resizeMode: 'contain',
-  },    
+  },
   locations: {
       flexDirection: 'row',
       flex: 2,
@@ -169,7 +181,7 @@ const styles = StyleSheet.create({
       width: '100%',
       resizeMode: 'contain',
 
-  }, 
+  },
   phoneCall: {
       height: '100%',
       width: '100%',
@@ -183,5 +195,5 @@ const styles = StyleSheet.create({
       fontFamily: 'libre-franklin-semibold',
       color: '#E87636',
   }
-    
+
 });

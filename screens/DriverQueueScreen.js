@@ -87,11 +87,10 @@ export default class DriverQueueScreen extends React.Component {
         .ref()
         .child("rides")
         .on("child_changed", snapshot => {
-          const data = snapshot.val();
           const initRiders = [];
 
           this.state.riders.forEach(function(value){
-            if (value.ride_id != data.key) {
+            if (value.ride_id != snapshot.key) {
               initRiders.unshift(value);
             }
           });
@@ -139,7 +138,7 @@ export default class DriverQueueScreen extends React.Component {
     const { navigate } = this.props.navigation;
 
     return (
-        
+
       <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
           <View style={styles.container}>
             <Button title= "< Home" onPress={() =>
@@ -151,7 +150,7 @@ export default class DriverQueueScreen extends React.Component {
               renderItem={this.renderItem}
               keyExtractor={(item, index) => item.ride_id}
             />
-            
+
           </View>
       </ImageBackground>
 
@@ -164,7 +163,7 @@ export default class DriverQueueScreen extends React.Component {
 const styles = StyleSheet.create({
   containerImg: {
     width: '100%',
-    height: '100%',  
+    height: '100%',
   },
   container: {
     flex: 1,
