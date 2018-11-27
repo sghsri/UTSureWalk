@@ -244,6 +244,4 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
   }
-
-
 });
