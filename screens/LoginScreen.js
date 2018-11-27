@@ -4,8 +4,6 @@ import { WebBrowser } from 'expo';
 
 
 import t from 'tcomb-form-native';
-
-const cheerio = require('react-native-cheerio')
 const Form = t.form.Form;
 
 const User = t.struct({
@@ -19,8 +17,19 @@ export default class LoginScreen extends React.Component {
   };
   constructor(props) {
     super(props);
+    const { navigate } = this.props.navigation;
+    this.retrieveItem('@User')
+      .then((user) => {
+        if (user) {
+          // this.setState({loginText: `Login with ${user.eid}`}); 
+          this.setState({ value: { eid: `${user.eid}` } });
+        }
+      })
     this.state = {
-      text: ''
+      loginText: 'Login',
+      value: {
+        eid: ''
+      }
     };
   }
 
@@ -50,7 +59,7 @@ export default class LoginScreen extends React.Component {
     const { navigate } = this.props.navigation;
     const value = this._form.getValue(); // use that ref to get the form value
     if (value) {
-      var eid = value.eid.toLowerCase();
+      var eid = value.eid.toLowerCase().trim();
       if ((/\d/g).test(eid)) {
         fetch('https://react-test-79a3b.firebaseio.com/users.json')
           .then(function (response) {
@@ -107,11 +116,11 @@ export default class LoginScreen extends React.Component {
         <View style={styles.container}>
           <Image source={require('../assets/images/surewalk.png')} style={styles.logo} />
 
-          <Form ref={c => this._form = c} type={User} options={options} />
+          <Form ref={c => this._form = c} value={this.state.value} type={User} options={options} />
 
 
           <TouchableOpacity style={styles.button} title="Login" onPress={() => this.handleSubmit()}>
-            <Text style={styles.buttonTxt}>Login</Text>
+            <Text style={styles.buttonTxt}>{this.state.loginText}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.registerButton} title="Register" onPress={() => navigate('Main', {})}>
             <Text style={styles.registerText}>Make Account</Text>

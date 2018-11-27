@@ -21,6 +21,7 @@ export default class LoginScreen extends React.Component {
   };
   constructor(props) {
     super(props);
+
     this.state = {
       text: ''
     };
@@ -52,7 +53,7 @@ export default class LoginScreen extends React.Component {
     const { navigate } = this.props.navigation;
     const value = this._form.getValue(); // use that ref to get the form value
     if (value) {
-      var eid = value.eid.toLowerCase();
+      var eid = value.eid.toLowerCase().trim();
       if ((/\d/g).test(eid)) {
         var url = `https://directory.utexas.edu/index.php?q=${eid}&scope=all&submit=Search`;
         fetch(url).then((response) => {
