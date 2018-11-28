@@ -40,12 +40,15 @@ export default class DriverBeginRideScreen extends React.Component {
   render () {
 
     return (
+      
       <View style = {{paddingTop:20}}> 
         <Button title="On Campus" onPress={this.onOnCampusButtonPress}/>,
         <View style={{paddingTop:10}} />,
         <Button title="Off Campus" onPress={this.onOffCampusButtonPress} />,
         <View style={{paddingTop:10}} />,
-        <TextInput style={{width:200, height: 40, borderWidth:1}}
+        <TextInput 
+          style={{width:200, height: 40, borderWidth:1}}
+          placeholder="passengers in cart"
           onChangeText={(text) => {this.setState({numSeats: text})}}
           autoCorrect={false} />,
         <View style={{paddingTop:10}} />,
