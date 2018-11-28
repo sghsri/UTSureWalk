@@ -48,7 +48,7 @@ export default class DriverBeginRideScreen extends React.Component {
         <View style={{paddingTop:10}} />,
         <TextInput 
           style={{width:200, height: 40, borderWidth:1}}
-          placeholder="passengers in cart"
+          placeholder="total number of riders"
           onChangeText={(text) => {this.setState({numSeats: text})}}
           autoCorrect={false} />,
         <View style={{paddingTop:10}} />,
