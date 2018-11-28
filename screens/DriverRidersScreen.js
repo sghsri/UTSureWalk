@@ -43,7 +43,7 @@ export default class DriverRidersScreen extends React.Component {
           Object
             .keys(data)
             .forEach(ride_key => {
-              if(data[ride_key].driverid == this.mydriverid) {
+              if(data[ride_key].driverid == this.mydriverid && data[ride_key].status == 2) {
                 initRiders.unshift({
                   campus: data[ride_key].campus,
                   driverid: data[ride_key].driverid,
@@ -61,9 +61,6 @@ export default class DriverRidersScreen extends React.Component {
           this.setState({
             riders: initRiders
           })
-          this.setState({
-            refresh: !this.state.refresh
-          })
         }
       });
 
@@ -73,7 +70,7 @@ export default class DriverRidersScreen extends React.Component {
       .child("rides")
       .on("child_added", snapshot => {
         const data = snapshot.val();
-        if (data && data.driverid == this.mydriverid) {
+        if (data && data.driverid == this.mydriverid && data.status == 2) {
           this.setState(prevState => ({
             riders: [{
               campus: data.campus,
@@ -100,11 +97,10 @@ export default class DriverRidersScreen extends React.Component {
         .ref()
         .child("rides")
         .on("child_changed", snapshot => {
-          const data = snapshot.val();
           const initRiders = [];
 
           this.state.riders.forEach(function(value){
-            if (value.ride_id != data.key) {
+            if (value.ride_id != snapshot.key) {
               initRiders.unshift(value);
             }
           });
@@ -120,8 +116,8 @@ export default class DriverRidersScreen extends React.Component {
         })
 
   }
-    
-    
+
+
     renderItem({ item }) {
 
         return (
@@ -139,7 +135,7 @@ export default class DriverRidersScreen extends React.Component {
             />
         )
     }
-    
+
 
 
   static navigationOptions = {
@@ -159,11 +155,12 @@ export default class DriverRidersScreen extends React.Component {
     return (
       <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
           <View style={styles.container}>
-            <FlatList data={this.state.riders}
-
-                renderItem={this.renderItem}
-              keyExtractor={(item, index) => index.toString()}
-              />
+          <FlatList
+            data={this.state.riders}
+            extraData={this.state.refresh}
+            renderItem={this.renderItem}
+            keyExtractor={(item, index) => item.ride_id}
+          />
 
 
               <Button title= "< Home" onPress={() =>
@@ -179,13 +176,13 @@ export default class DriverRidersScreen extends React.Component {
 const styles = StyleSheet.create({
   containerImg: {
     width: '100%',
-    height: '100%',  
+    height: '100%',
   },
   container: {
     flex: 1,
     paddingTop: '10%',
     paddingLeft: '5%',
-    paddingRight: '5%',  
+    paddingRight: '5%',
   },
   contentContainer: {
     paddingTop: 30,
