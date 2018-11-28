@@ -83,28 +83,28 @@ export default class DriverQueueScreen extends React.Component {
         }
       })
 
-      firebase
-        .database()
-        .ref()
-        .child("rides")
-        .on("child_changed", snapshot => {
-          const initRiders = [];
+    firebase
+      .database()
+      .ref()
+      .child("rides")
+      .on("child_changed", snapshot => {
+        const initRiders = [];
 
-          this.state.riders.forEach(function(value){
-            if (value.ride_id != snapshot.key) {
-              initRiders.unshift(value);
-            }
-          });
+        this.state.riders.forEach(function (value) {
+          if (value.ride_id != snapshot.key) {
+            initRiders.unshift(value);
+          }
+        });
 
-          this.setState({
-            riders: initRiders
-          })
-
-          this.setState({
-            refresh: !this.state.refresh
-          })
-
+        this.setState({
+          riders: initRiders
         })
+
+        this.setState({
+          refresh: !this.state.refresh
+        })
+
+      })
 
   }
 
@@ -145,6 +145,9 @@ export default class DriverQueueScreen extends React.Component {
         <View style={styles.container}>
           <Button title="< Home" onPress={() =>
             navigate('Login', {})
+          } />
+          <Button title="< Rider Status" onPress={() =>
+            navigate('RiderStatus', {})
           } />
           <FlatList
             data={this.state.riders}

@@ -15,7 +15,7 @@ const User = t.struct({
 });
 
 
-export default class LoginScreen extends React.Component {
+export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };

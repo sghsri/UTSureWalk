@@ -4,6 +4,7 @@ import { createSwitchNavigator } from 'react-navigation';
 import MainTabNavigator from './MainTabNavigator';
 import DriverTabNavigator from './DriverTabNavigator';
 import RiderScreen from '../screens/RiderScreen';
+import RiderStatusScreen from '../screens/RiderStatusScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/auth/SignUpScreen';
@@ -17,6 +18,7 @@ export default createSwitchNavigator({
   // SignUp: {screen : SignUpScreen},
   Main: { screen: HomeScreen },
   Rider: RiderScreen,
+  RiderStatus: { screen: RiderStatusScreen },
   DriverQueue: DriverTabNavigator,
   RiderSubmission: { screen: RiderSubmissionScreen },
 });
