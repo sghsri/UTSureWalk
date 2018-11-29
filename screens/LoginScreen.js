@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ImageBackground, TextInput, Platform, AsyncStorage, ScrollView, Alert, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
+import { Image, ImageBackground, TextInput, Platform, AsyncStorage, ScrollView, Alert, StyleSheet, Text, TouchableOpacity, View, Button, KeyboardAvoidingView } from 'react-native';
 import { WebBrowser } from 'expo';
 
 
@@ -112,6 +112,7 @@ export default class LoginScreen extends React.Component {
     const { navigate } = this.props.navigation;
 
     return (
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
       <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
         <View style={styles.container}>
           <Image source={require('../assets/images/surewalk.png')} style={styles.logo} />
@@ -128,6 +129,7 @@ export default class LoginScreen extends React.Component {
           </TouchableOpacity>
         </View>
       </ImageBackground >
+      </KeyboardAvoidingView>
     );
   }
 }
