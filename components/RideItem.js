@@ -2,6 +2,7 @@
 import React from 'react';
 import {Image, StyleSheet, View, Text, TextInput, Button, Alert, Icon, TouchableOpacity, AsyncStorage} from 'react-native';
 import * as firebase from 'firebase';
+import moment from 'moment';
 
 export default class RideItem extends React.Component {
   constructor(props) {
@@ -16,7 +17,8 @@ export default class RideItem extends React.Component {
       rider: '',
       riderid: '',
       status: '',
-      ride_id: ''
+      ride_id: '',
+      timestamp: 0,
     }
 
     if (!firebase.apps.length) {
@@ -25,15 +27,15 @@ export default class RideItem extends React.Component {
   }
 
   componentWillMount() {
-      const { campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id } = this.props
+      const { campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, timestamp } = this.props
 
-      this.setState({ campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id })
+      this.setState({ campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, timestamp })
   }
 
   componentWillReceiveProps(nextProps) {
-      const { campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id } = nextProps
+      const { campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, timestamp } = nextProps
 
-      this.setState({ campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id })
+      this.setState({ campus, driverid, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, timestamp })
   }
 
 
@@ -67,12 +69,16 @@ onNoShow() {
   }
 }
 
+getFormattedTime () {
+  //times 1000 because the timestamp is floored to the second
+  return moment((this.state.timestamp * 1000)).fromNow();
+}
 
   render() {
       return(
         <View style={styles.rideItemComponent}>
             <View style={styles.topBar}>
-                <Text style={styles.topBarText}>Time | {this.state.rider}</Text>
+                <Text style={styles.topBarText}>{this.state.rider} | {this.getFormattedTime()}</Text>
                 <View style={styles.handView}>
                 <Image source={require('../assets/images/HandicapTemp.png')} style={styles.handicap} />
                 </View>
@@ -93,7 +99,7 @@ onNoShow() {
                 </View>
             </View>
         </View>
-        
+
     )
   }
 
@@ -169,5 +175,5 @@ const styles = StyleSheet.create({
       width: '100%',
       resizeMode: 'contain',
 
-  }    
+  }
 });

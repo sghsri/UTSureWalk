@@ -66,7 +66,7 @@ export default class MyRiderItem extends React.Component {
       return(
         <View style={styles.MyRiderComponent}>
             <View style={styles.topBar}>
-                <Text style={styles.topBarText}>Time | {this.state.rider}</Text>
+                <Text style={styles.topBarText}>{this.state.rider}</Text>
 
                 <TouchableOpacity style={styles.handView} onPress={this.onPhoneCallPress.bind(this, String(this.state.phone))}>
                 <Image

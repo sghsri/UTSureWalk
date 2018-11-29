@@ -41,9 +41,11 @@ export default class DriverQueueScreen extends React.Component {
                   note: data[ride_key].note,
                   numriders: data[ride_key].numriders,
                   pickup: data[ride_key].pickup,
-                  rider: data[ride_key].rider,
+                  rider: data[ride_key].User._55.name,
                   riderid: data[ride_key].riderid,
                   status: data[ride_key].status,
+                  timestamp: data[ride_key].timestamp,
+                  phone: data[ride_key].User._55.phone,
                   ride_id: ride_key
                 });
 
@@ -73,6 +75,8 @@ export default class DriverQueueScreen extends React.Component {
               rider: data.rider,
               riderid: data.riderid,
               status: data.status,
+              timestamp: data.timestamp,
+              phone: data.phone,
               ride_id: snapshot.key
             }, ...prevState.riders]
           })
@@ -122,6 +126,7 @@ export default class DriverQueueScreen extends React.Component {
         rider={item.rider}
         riderid={item.riderid}
         status={item.status}
+        timestamp={item.timestamp}
         ride_id={item.ride_id}
       />
     )
