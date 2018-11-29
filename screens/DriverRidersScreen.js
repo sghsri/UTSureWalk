@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, ImageBackground, Platform,ScrollView,StyleSheet,Text,TouchableOpacity,View,FlatList,Button,AsyncStorage} from 'react-native';
+import { Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, FlatList, Button, AsyncStorage } from 'react-native';
 import { WebBrowser } from 'expo';
 import ApiKeys from '../constants/ApiKeys'
 import * as firebase from 'firebase';
@@ -9,7 +9,7 @@ import MyRiderItem from '../components/MyRiderItem'
 
 
 export default class DriverRidersScreen extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.mydriverid = '';
     this.state = {
@@ -43,7 +43,7 @@ export default class DriverRidersScreen extends React.Component {
           Object
             .keys(data)
             .forEach(ride_key => {
-              if(data[ride_key].driverid == this.mydriverid && data[ride_key].status == 2) {
+              if (data[ride_key].driverid == this.mydriverid && data[ride_key].status == 2) {
                 initRiders.unshift({
                   campus: data[ride_key].campus,
                   driverid: data[ride_key].driverid,
@@ -94,49 +94,49 @@ export default class DriverRidersScreen extends React.Component {
         }
       })
 
-      firebase
-        .database()
-        .ref()
-        .child("rides")
-        .on("child_changed", snapshot => {
-          const initRiders = [];
+    firebase
+      .database()
+      .ref()
+      .child("rides")
+      .on("child_changed", snapshot => {
+        const initRiders = [];
 
-          this.state.riders.forEach(function(value){
-            if (value.ride_id != snapshot.key) {
-              initRiders.unshift(value);
-            }
-          });
+        this.state.riders.forEach(function (value) {
+          if (value.ride_id != snapshot.key) {
+            initRiders.unshift(value);
+          }
+        });
 
-          this.setState({
-            riders: initRiders
-          })
-
-          this.setState({
-            refresh: !this.state.refresh
-          })
-
+        this.setState({
+          riders: initRiders
         })
+
+        this.setState({
+          refresh: !this.state.refresh
+        })
+
+      })
 
   }
 
 
-    renderItem({ item }) {
+  renderItem({ item }) {
 
-        return (
-            <MyRiderItem
-                campus={item.campus}
-                dropoff={item.dropoff}
-                note={item.note}
-                numriders= {item.numriders}
-                pickup= {item.pickup}
-                rider={item.rider}
-                riderid = {item.riderid}
-                status  = {item.status}
-                ride_id = {item.ride_id}
-                phone = {item.phone}
-            />
-        )
-    }
+    return (
+      <MyRiderItem
+        campus={item.campus}
+        dropoff={item.dropoff}
+        note={item.note}
+        numriders={item.numriders}
+        pickup={item.pickup}
+        rider={item.rider}
+        riderid={item.riderid}
+        status={item.status}
+        ride_id={item.ride_id}
+        phone={item.phone}
+      />
+    )
+  }
 
 
 
@@ -156,7 +156,7 @@ export default class DriverRidersScreen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
-          <View style={styles.container}>
+        <View style={styles.container}>
           <FlatList
             data={this.state.riders}
             extraData={this.state.refresh}
@@ -165,10 +165,13 @@ export default class DriverRidersScreen extends React.Component {
           />
 
 
-              <Button title= "< Home" onPress={() =>
-                  navigate('Main', {})
-                  } />
-          </View>
+          <Button title="< Rider Status" onPress={() =>
+            navigate('RiderStatus', {})
+          } />
+          <Button title="< Home" onPress={() =>
+            navigate('Login', {})
+          } />
+        </View>
       </ImageBackground>
     );
   }

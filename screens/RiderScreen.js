@@ -335,7 +335,7 @@ export default class RiderScreen extends React.Component {
               <Text style={styles.title}>Where are you?</Text>
               <ModalSelector
                 data={data}
-                initValue="Destination"
+                initValue="Source"
                 selectStyle={{ borderColor: 'white', padding: 15 }}
                 selectTextStyle={{ fontSize: 20, color: 'white' }}
                 optionStyle={{ padding: 10 }}
@@ -391,7 +391,11 @@ export default class RiderScreen extends React.Component {
                 onPress={() =>
                   fetch('https://react-test-79a3b.firebaseio.com/rides.json', {
                     method: 'POST',
-                    body: JSON.stringify(this.state.request),
+                    body: JSON.stringify(this.state.request)
+                  }).then((response) => {
+                    console.log(response);
+                    this.storeItem('@Ride', this.state.request)
+                      .then(() => navigate('RiderStatus', {}))
                   })
                 }
                 style={styles.button}
