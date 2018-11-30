@@ -16,6 +16,7 @@ export default class DriverRidersScreen extends React.Component {
       riders: [],
       refresh: true
     }
+    console.log('hello');
 
     if (!firebase.apps.length) {
       firebase.initializeApp(ApiKeys.FirebaseConfig);
@@ -32,44 +33,15 @@ export default class DriverRidersScreen extends React.Component {
       console.log(error.message);
     }
 
-    firebase
-      .database()
-      .ref()
-      .child("rides")
-      .once("value", snapshot => {
-        const data = snapshot.val()
-        if (snapshot.val()) {
-          const initRiders = [];
-          Object
-            .keys(data)
-            .forEach(ride_key => {
-              if (data[ride_key].driverid == this.mydriverid && data[ride_key].status == 2) {
-                initRiders.unshift({
-                  campus: data[ride_key].campus,
-                  driverid: data[ride_key].driverid,
-                  dropoff: data[ride_key].dropoff,
-                  note: data[ride_key].note,
-                  numriders: data[ride_key].numriders,
-                  pickup: data[ride_key].pickup,
-                  rider: data[ride_key].User._55.name,
-                  riderid: data[ride_key].riderid,
-                  status: data[ride_key].status,
-                  phone: data[ride_key].User._55.phone,
-                  ride_id: ride_key
-                });
-              }
-            });
-          this.setState({
-            riders: initRiders
-          })
-        }
-      });
 
     firebase
       .database()
       .ref()
       .child("rides")
       .on("child_added", snapshot => {
+        this.setState({
+          riders: []
+        })
         const data = snapshot.val();
         if (data && data.driverid == this.mydriverid && data.status == 2) {
           this.setState(prevState => ({
@@ -98,6 +70,45 @@ export default class DriverRidersScreen extends React.Component {
       .database()
       .ref()
       .child("rides")
+      .once("value", snapshot => {
+        this.setState({
+          riders: []
+        })
+        const data = snapshot.val()
+        if (snapshot.val()) {
+          const initRiders = [];
+          Object
+            .keys(data)
+            .forEach(ride_key => {
+              if (data[ride_key].driverid == this.mydriverid && data[ride_key].status == 2) {
+                initRiders.unshift({
+                  campus: data[ride_key].campus,
+                  driverid: data[ride_key].driverid,
+                  dropoff: data[ride_key].dropoff,
+                  note: data[ride_key].note,
+                  numriders: data[ride_key].numriders,
+                  pickup: data[ride_key].pickup,
+                  rider: data[ride_key].User._55.name,
+                  riderid: data[ride_key].riderid,
+                  status: data[ride_key].status,
+                  phone: data[ride_key].User._55.phone,
+                  ride_id: ride_key
+                });
+              }
+            });
+
+          this.setState({
+            riders: initRiders
+          })
+          console.log('hello');
+          console.log(initRiders)
+        }
+      });
+
+    firebase
+      .database()
+      .ref()
+      .child("rides")
       .on("child_changed", snapshot => {
         const initRiders = [];
 
@@ -106,7 +117,26 @@ export default class DriverRidersScreen extends React.Component {
             initRiders.unshift(value);
           }
         });
-        console.log(initRiders);
+        const data = snapshot.val();
+        if (data) {
+          if (data.status == 2) {
+            var val = {
+              campus: data.campus,
+              driverid: data.driverid,
+              dropoff: data.dropoff,
+              note: data.note,
+              numriders: data.numriders,
+              pickup: data.pickup,
+              rider: data.User._55.name,
+              riderid: data.riderid,
+              status: data.status,
+              timestamp: data.timestamp,
+              phone: data.phone,
+              ride_id: snapshot.key
+            };
+            initRiders.unshift(val);
+          }
+        }
         this.setState({
           riders: initRiders
         })
@@ -119,7 +149,11 @@ export default class DriverRidersScreen extends React.Component {
 
   }
 
-
+  componentWillUnmount() {
+    firebase
+      .database()
+      .ref().off();
+  }
   renderItem({ item }) {
 
     return (
@@ -157,12 +191,13 @@ export default class DriverRidersScreen extends React.Component {
     return (
       <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
         <View style={styles.container}>
+          <Text style={styles.title}>My Riders</Text>
           <FlatList
             style={{ borderWidth: 3, elevation: 1, borderColor: 'white', borderRadius: 20, padding: 15 }}
             data={this.state.riders}
             extraData={this.state.refresh}
             renderItem={this.renderItem}
-            keyExtractor={(item, index) => item.ride_id}
+            keyExtractor={(item, index) => item.ride_id + index}
           />
         </View>
       </ImageBackground>
@@ -175,6 +210,15 @@ const styles = StyleSheet.create({
   containerImg: {
     width: '100%',
     height: '100%',
+  },
+  title: {
+    color: 'white',
+    padding: 10,
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 25,
+    fontWeight: '600'
   },
   container: {
     flex: 1,

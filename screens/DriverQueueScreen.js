@@ -87,7 +87,6 @@ export default class DriverQueueScreen extends React.Component {
               ride_id: snapshot.key
             }, ...prevState.riders]
           })
-
           this.setState({
             refresh: !this.state.refresh,
             loadingmargin: {
@@ -104,22 +103,19 @@ export default class DriverQueueScreen extends React.Component {
       .ref()
       .child("rides")
       .on("child_changed", snapshot => {
+        console.log(snapshot);
         const initRiders = [];
-
         this.state.riders.forEach(function (value) {
+          console.log(value);
+
           if (value.ride_id != snapshot.key) {
             initRiders.unshift(value);
           }
         });
-
         this.setState({
-          riders: initRiders
-        })
-
-        this.setState({
+          riders: initRiders,
           refresh: !this.state.refresh
         })
-
       })
 
   }
