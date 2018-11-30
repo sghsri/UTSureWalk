@@ -143,7 +143,7 @@ export default class DriverQueueScreen extends React.Component {
               numriders: data.numRiders,
               pickup: data.pickup,
               rider: data.User._55.name,
-              riderid: data.riderid,
+              riderid: data.User._55.eid,
               status: data.status,
               timestamp: data.timestamp,
               phone: data.phone,

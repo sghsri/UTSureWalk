@@ -78,7 +78,7 @@ export default class MyRiderItem extends React.Component {
             <TouchableOpacity onPress={() => this.openAlert('Extra Info', this.state.note + "\n" + this.state.numriders + " Riders")}>
                 <View style={styles.MyRiderComponent}>
                     <View style={styles.topBar}>
-                        <Text style={styles.topBarText}>{this.state.rider + '(' + this.state.riderid + ')'}</Text>
+                        <Text style={styles.topBarText}>{this.state.rider + ' (' + this.state.riderid + ')'}</Text>
 
                         <TouchableOpacity style={styles.handView} onPress={this.onPhoneCallPress.bind(this, String(this.state.phone))}>
                             <Image

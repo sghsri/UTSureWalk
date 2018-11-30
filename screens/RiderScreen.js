@@ -366,6 +366,8 @@ export default class RiderScreen extends React.Component {
                 <UIStepper
                   displayValue={true}
                   maximumValue={6}
+                  initialValue={1}
+                  minimumValue={1}
                   textColor='white'
                   tintColor='white'
                   borderColor='white'
