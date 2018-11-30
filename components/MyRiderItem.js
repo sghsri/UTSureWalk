@@ -20,7 +20,6 @@ export default class MyRiderItem extends React.Component {
             ride_id: '',
             phone: 0
         }
-
         if (!firebase.apps.length) {
             firebase.initializeApp(ApiKeys.FirebaseConfig);
         }
@@ -34,12 +33,10 @@ export default class MyRiderItem extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         const { campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, phone } = nextProps
-
         this.setState({ campus, dropoff, note, numriders, pickup, rider, riderid, status, ride_id, phone })
     }
 
     onDropoff() {
-
         firebase
             .database()
             .ref('rides/' + this.state.ride_id)
@@ -50,6 +47,16 @@ export default class MyRiderItem extends React.Component {
 
     }
 
+
+    onInTransit() {
+        firebase
+            .database()
+            .ref('rides/' + this.state.ride_id)
+            .update({
+                status: 3
+            })
+            .then(() => { }, (error) => { Alert.alert(error.message) });
+    }
     onNoShow() {
         Alert.alert('No Show!')
     }
@@ -66,12 +73,21 @@ export default class MyRiderItem extends React.Component {
             title,
             message,
             [
-                { text: 'OK', onPress: () => console.log('OK Pressed') },
+                {
+                    text: 'In-Cart', onPress: () => {
+                        try {
+                            this.onInTransit()
+                        } catch (error) {
+                            console.log(error.message);
+                        }
+
+                    }
+                },
+                { text: 'Close', onPress: () => { } }
             ],
             { cancelable: false }
         )
     }
-
 
     render() {
         return (

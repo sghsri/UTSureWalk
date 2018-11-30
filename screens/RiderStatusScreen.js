@@ -19,8 +19,7 @@ export default class RiderStatusScreen extends React.Component {
             statusText: 'Loading...',
             driverText: 'Searching...',
             driverPhone: '',
-            status: 1
-
+            status: 1,
         };
         this.retrieveItem('@Ride')
             .then((theride) => {
@@ -82,6 +81,8 @@ export default class RiderStatusScreen extends React.Component {
                             case 2:
                                 this.setState({ statusText: 'A Driver is coming to pick you up!', status: 2 });
                                 break;
+                            case 3:
+                                this.setState({ statusText: 'You are in transit', status: 3 })
                             case 4:
                                 this.setState({ statusText: 'Thank you for Riding with Surewalk!', status: 4 });
                                 break;
@@ -178,7 +179,6 @@ export default class RiderStatusScreen extends React.Component {
                 fontWeight: '600',
                 paddingTop: 5,
                 paddingBottom: 5,
-
             }
         }
     }
@@ -278,13 +278,11 @@ export default class RiderStatusScreen extends React.Component {
                         <TouchableOpacity style={styles.button} title="" onPress={() => navigate('Login', {})}>
                             <Text style={styles.buttonTxt}>Close</Text>
                         </TouchableOpacity>}
-
                     <TouchableOpacity style={styles.mainButton} title="Driver ->" onPress={() => {
                         Communications.phonecall('5122329255', true);
                     }}>
                         <Text style={styles.buttonTxt}>Call Surewalk Office</Text>
                     </TouchableOpacity>
-
                 </View>
             </ImageBackground >
         );
