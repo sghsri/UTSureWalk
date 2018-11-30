@@ -20,8 +20,8 @@ DriverQueueStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-car${focused ? '' : '-outline'}`
+          : 'md-car'
       }
     />
   ),
@@ -38,8 +38,8 @@ DriverRidersStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-cart${focused ? '' : '-outline'}`
+          : 'md-cart'
       }
     />
   ),
@@ -56,14 +56,16 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-home${focused ? '' : '-outline'}`
+          : 'md-home'
       }
     />
   ),
 };
 
+
 export default createBottomTabNavigator({
   DriverQueueStack,
-  DriverRidersStack
+  DriverRidersStack,
+
 });

@@ -401,8 +401,7 @@ export default class RiderScreen extends React.Component {
               </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.devButton} title="Login" onPress={() => navigate('Login', {})}>
-
-              <Text style={styles.buttonTxt}>Home</Text>
+              <Text style={styles.buttonTxt}>Logout</Text>
             </TouchableOpacity>
           </ScrollView>
         </KeyboardAvoidingView>

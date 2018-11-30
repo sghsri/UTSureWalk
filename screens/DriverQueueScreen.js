@@ -25,6 +25,7 @@ export default class DriverQueueScreen extends React.Component {
   startLoading() {
     this.setState({
       loadingmargin: {
+        elevation: 2,
         marginTop: '100%',
         marginBottom: '10%',
         alignSelf: 'center',
@@ -195,7 +196,7 @@ export default class DriverQueueScreen extends React.Component {
           <Text style={styles.title}>Queued Ride Requests</Text>
           <ActivityIndicator animating={this.state.loading} style={this.state.loadingmargin} size="large" color="#fff">
           </ActivityIndicator>
-          <Text style={styles.loadingtext}>{this.state.loading ? "Loading" : null}</Text>
+          <Text style={styles.emptytext}>{this.state.riders.length == 0 && !this.state.loading ? "No Rides in Queue" : ""}</Text>
           <FlatList
             style={{ borderWidth: 3, elevation: 1, borderColor: 'white', borderRadius: 20, padding: 15, }}
             data={this.state.riders}
@@ -204,11 +205,11 @@ export default class DriverQueueScreen extends React.Component {
             keyExtractor={(item, index) => item.ride_id}
           />
           <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-            <TouchableOpacity style={styles.button} title="Be a Rider" onPress={() => navigate('Rider', {})}>
-              <Text style={styles.buttonTxt}>Rider</Text>
+            <TouchableOpacity style={styles.button} title="" onPress={() => navigate('Rider', {})}>
+              <Text style={styles.buttonTxt}>Ride</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} title="Driver ->" onPress={() => navigate('DriverQueue', {})}>
-              <Text style={styles.buttonTxt}>Driver</Text>
+              <Text style={styles.buttonTxt}>Contact</Text>
             </TouchableOpacity>
           </View>
 
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: '600'
   },
-  loadingtext: {
+  emptytext: {
     color: 'white',
     padding: 10,
     textAlign: 'center',
@@ -244,7 +245,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     position: 'absolute',
     alignSelf: 'center',
-    fontSize: 15,
+    fontSize: 20,
     fontWeight: '600'
   },
   buttonView: {

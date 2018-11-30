@@ -142,12 +142,18 @@ export default class HomeScreen extends React.Component {
             <Image source={require('../assets/images/surewalk.png')} style={styles.logo} />
 
             <Form ref={c => this._form = c} type={User} options={options} />
-            <TouchableOpacity
-              title="Start Walking Surely"
-              style={styles.button}
-              onPress={this.handleSubmit}>
-              <Text style={styles.buttonTxt}>  Start Walking Surely</Text>
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+              <TouchableOpacity style={styles.button} title="" onPress={() => navigate('Login', {})}>
+                <Text style={styles.buttonTxt}>Back</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                title="Start Walking Surely"
+                style={styles.button}
+                onPress={this.handleSubmit}>
+                <Text style={styles.buttonTxt}>Register</Text>
+              </TouchableOpacity>
+            </View>
+
           </View>
         </ImageBackground>
       </KeyboardAvoidingView>
@@ -230,9 +236,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     margin: 20,
     padding: 10,
-    width: '60%',
+    width: '30%%',
     alignSelf: 'center',
-    marginBottom: 10,
+    marginBottom: 20,
     marginRight: 5,
     borderRadius: 50
   },
