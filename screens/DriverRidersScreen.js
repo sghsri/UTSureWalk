@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, FlatList, Button, AsyncStorage } from 'react-native';
+import { Image, ActivityIndicator, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, FlatList, Button, AsyncStorage } from 'react-native';
 import { WebBrowser } from 'expo';
 import ApiKeys from '../constants/ApiKeys'
 import * as firebase from 'firebase';
@@ -14,15 +14,43 @@ export default class DriverRidersScreen extends React.Component {
     this.mydriverid = '';
     this.state = {
       riders: [],
-      refresh: false
+      refresh: true,
+      loading: true,
+      loadingmargin: {
+        marginTop: '110%',
+        alignSelf: 'center',
+        marginBottom: 10,
+        position: 'absolute'
+      }
     }
-
     if (!firebase.apps.length) {
       firebase.initializeApp(ApiKeys.FirebaseConfig);
     }
 
   }
 
+  startLoading() {
+    this.setState({
+      loadingmargin: {
+        marginTop: '110%',
+        alignSelf: 'center',
+        marginBottom: 10,
+        position: 'absolute'
+      },
+      loading: true
+    })
+  }
+
+  stopLoading() {
+    this.setState({
+      loadingmargin: {
+        margin: '0%',
+        alignSelf: 'center',
+        position: 'absolute'
+      },
+      loading: false
+    })
+  }
   async componentDidMount() {
     try {
       const retrievedItem = await AsyncStorage.getItem("@User");
@@ -31,12 +59,48 @@ export default class DriverRidersScreen extends React.Component {
     } catch (error) {
       console.log(error.message);
     }
+    this.startLoading();
+    firebase
+      .database()
+      .ref()
+      .child("rides")
+      .on("child_added", snapshot => {
+        this.setState({
+          riders: []
+        })
+        const data = snapshot.val();
+        if (data && data.driverid == this.mydriverid && data.status == 2) {
+          this.setState(prevState => ({
+            riders: [{
+              campus: data.campus,
+              driverid: data.driverid,
+              dropoff: data.dropoff,
+              note: data.note,
+              numriders: data.numriders,
+              pickup: data.pickup,
+              rider: data.rider,
+              riderid: data.User._55.eid,
+              status: data.status,
+              phone: data.User._55.phone,
+              ride_id: snapshot.key
+            }, ...prevState.riders]
+          }))
+          this.setState({
+            refresh: !this.state.refresh
+          })
+          this.stopLoading();
+        }
+      })
 
     firebase
       .database()
       .ref()
       .child("rides")
       .once("value", snapshot => {
+        this.startLoading();
+        this.setState({
+          riders: []
+        })
         const data = snapshot.val()
         if (snapshot.val()) {
           const initRiders = [];
@@ -52,53 +116,27 @@ export default class DriverRidersScreen extends React.Component {
                   numriders: data[ride_key].numriders,
                   pickup: data[ride_key].pickup,
                   rider: data[ride_key].User._55.name,
-                  riderid: data[ride_key].riderid,
+                  riderid: data[ride_key].User._55.eid,
                   status: data[ride_key].status,
                   phone: data[ride_key].User._55.phone,
                   ride_id: ride_key
                 });
               }
             });
+
           this.setState({
             riders: initRiders
           })
         }
+        this.stopLoading();
       });
 
     firebase
       .database()
       .ref()
       .child("rides")
-      .on("child_added", snapshot => {
-        const data = snapshot.val();
-        if (data && data.driverid == this.mydriverid && data.status == 2) {
-          this.setState(prevState => ({
-            riders: [{
-              campus: data.campus,
-              driverid: data.driverid,
-              dropoff: data.dropoff,
-              note: data.note,
-              numriders: data.numriders,
-              pickup: data.pickup,
-              rider: data.rider,
-              riderid: data.riderid,
-              status: data.status,
-              phone: data.phone,
-              ride_id: snapshot.key
-            }, ...prevState.riders]
-          }))
-
-          this.setState({
-            refresh: !this.state.refresh
-          })
-        }
-      })
-
-    firebase
-      .database()
-      .ref()
-      .child("rides")
       .on("child_changed", snapshot => {
+        this.startLoading();
         const initRiders = [];
 
         this.state.riders.forEach(function (value) {
@@ -106,7 +144,26 @@ export default class DriverRidersScreen extends React.Component {
             initRiders.unshift(value);
           }
         });
-
+        const data = snapshot.val();
+        if (data) {
+          if (data.status == 2) {
+            var val = {
+              campus: data.campus,
+              driverid: data.driverid,
+              dropoff: data.dropoff,
+              note: data.note,
+              numriders: data.numriders,
+              pickup: data.pickup,
+              rider: data.User._55.name,
+              riderid: data.User._55.eid,
+              status: data.status,
+              timestamp: data.timestamp,
+              phone: data.User._55phone,
+              ride_id: snapshot.key
+            };
+            initRiders.unshift(val);
+          }
+        }
         this.setState({
           riders: initRiders
         })
@@ -114,12 +171,16 @@ export default class DriverRidersScreen extends React.Component {
         this.setState({
           refresh: !this.state.refresh
         })
-
+        this.stopLoading();
       })
 
   }
 
-
+  componentWillUnmount() {
+    firebase
+      .database()
+      .ref().off();
+  }
   renderItem({ item }) {
 
     return (
@@ -157,20 +218,19 @@ export default class DriverRidersScreen extends React.Component {
     return (
       <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
         <View style={styles.container}>
+          <Text style={styles.title}>My Riders</Text>
+          <ActivityIndicator animating={this.state.loading} style={this.state.loadingmargin} size="large" color="#fff"></ActivityIndicator>
+          <Text style={styles.emptytext}>{this.state.riders.length == 0 && !this.state.loading ? "No Riders to Pickup" : ""}</Text>
           <FlatList
+            style={{ borderWidth: 3, elevation: 1, borderColor: 'white', borderRadius: 20, padding: 15 }}
             data={this.state.riders}
             extraData={this.state.refresh}
             renderItem={this.renderItem}
-            keyExtractor={(item, index) => item.ride_id}
+            keyExtractor={(item, index) => item.ride_id + index}
           />
-
-
-          <Button title="< Rider Status" onPress={() =>
-            navigate('RiderStatus', {})
-          } />
-          <Button title="< Home" onPress={() =>
-            navigate('Login', {})
-          } />
+          <TouchableOpacity style={styles.button} title="Driver ->" onPress={() => navigate('Login', {})}>
+            <Text style={styles.buttonTxt}>Logout</Text>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     );
@@ -182,6 +242,46 @@ const styles = StyleSheet.create({
   containerImg: {
     width: '100%',
     height: '100%',
+  },
+  title: {
+    color: 'white',
+    padding: 10,
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 25,
+    fontWeight: '600'
+  },
+  emptytext: {
+    color: 'white',
+    padding: 10,
+    textAlign: 'center',
+    marginTop: '100%',
+    elevation: 1,
+    marginBottom: 10,
+    position: 'absolute',
+    alignSelf: 'center',
+    fontSize: 20,
+    fontWeight: '600'
+  },
+  button: {
+    backgroundColor: 'white',
+    margin: 20,
+    padding: 10,
+    width: '40%',
+    alignSelf: 'center',
+    marginBottom: 5,
+    marginTop: 50,
+    marginRight: 5,
+    borderRadius: 50
+  },
+  buttonTxt: {
+    alignSelf: 'center',
+    color: '#E87636',
+    fontSize: 16,
+    fontWeight: '600',
+    paddingTop: 5,
+    paddingBottom: 5,
   },
   container: {
     flex: 1,

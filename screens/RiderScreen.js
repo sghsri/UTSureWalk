@@ -63,8 +63,6 @@ export default class RiderScreen extends React.Component {
 
   async storeItem(key, item) {
     try {
-      //we want to wait for the Promise returned by AsyncStorage.setItem()
-      //to be resolved to the actual value before returning the value
       var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
       return jsonOfItem;
     } catch (error) {
@@ -393,7 +391,6 @@ export default class RiderScreen extends React.Component {
                     method: 'POST',
                     body: JSON.stringify(this.state.request)
                   }).then((response) => {
-                    console.log(response);
                     this.storeItem('@Ride', this.state.request)
                       .then(() => navigate('RiderStatus', {}))
                   })
@@ -404,12 +401,7 @@ export default class RiderScreen extends React.Component {
               </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.devButton} title="Login" onPress={() => navigate('Login', {})}>
-
-              <Text style={styles.buttonTxt}>Home</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.devButton} title="Driver ->" onPress={() => navigate('DriverQueue', {})}>
-              <Text style={styles.buttonTxt}>Driver</Text>
-
+              <Text style={styles.buttonTxt}>Logout</Text>
             </TouchableOpacity>
           </ScrollView>
         </KeyboardAvoidingView>
