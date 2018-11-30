@@ -137,21 +137,19 @@ export default class HomeScreen extends React.Component {
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
-        <View style={styles.container}>
-          <Image source={require('../assets/images/surewalk.png')} style={styles.logo} />
+        <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
+          <View style={styles.container}>
+            <Image source={require('../assets/images/surewalk.png')} style={styles.logo} />
 
-          <Form ref={c => this._form = c} type={User} options={options} />
-          <Button
-            title="Start Walking Surely"
-            color="#fff"
-            fontSize="10"
-            fontFamily='libre-franklin'
-            buttonStyle={styles.button}
-            onPress={this.handleSubmit}
-          />
-        </View>
-      </ImageBackground>
+            <Form ref={c => this._form = c} type={User} options={options} />
+            <TouchableOpacity
+              title="Start Walking Surely"
+              style={styles.button}
+              onPress={this.handleSubmit}>
+              <Text style={styles.buttonTxt}>  Start Walking Surely</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
       </KeyboardAvoidingView>
     );
   }
@@ -229,12 +227,12 @@ const styles = StyleSheet.create({
     tintColor: 'white',
   },
   button: {
-    backgroundColor: "white",
-    position: 'absolute',
-    bottom: 0,
+    backgroundColor: 'white',
     margin: 20,
-    marginTop: 30,
     padding: 10,
+    width: '60%',
+    alignSelf: 'center',
+    marginBottom: 10,
     marginRight: 5,
     borderRadius: 50
   },
@@ -245,5 +243,5 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     paddingTop: 5,
     paddingBottom: 5,
-  }
+  },
 });

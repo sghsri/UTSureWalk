@@ -75,6 +75,7 @@ export default class RiderStatusScreen extends React.Component {
                                 break;
                             default:
                                 this.setState({ statusText: 'There was an Error' });
+
                                 break;
                         }
 
@@ -139,9 +140,7 @@ export default class RiderStatusScreen extends React.Component {
                     </View>
                     <TouchableOpacity style={styles.button} title="Driver ->" onPress={() => navigate('DriverQueue', {})}>
                         <Text style={styles.buttonTxt}>Driver</Text>
-
                     </TouchableOpacity>
-
                 </View>
             </ImageBackground >
         );
@@ -158,8 +157,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'stretch',
         flexDirection: 'column',
-        paddingTop: 30,
-        padding: 20,
     },
     logo: {
         flex: 1,

@@ -163,8 +163,6 @@ export default class DriverRidersScreen extends React.Component {
             renderItem={this.renderItem}
             keyExtractor={(item, index) => item.ride_id}
           />
-
-
           <Button title="< Rider Status" onPress={() =>
             navigate('RiderStatus', {})
           } />

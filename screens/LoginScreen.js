@@ -81,8 +81,15 @@ export default class LoginScreen extends React.Component {
             return contains;
           }).then((renavigate) => {
             if (renavigate) {
+              this.retrieveItem('@User').then((user) => {
+                if (user.isDriver == 0) {
+                  navigate('Rider', {});
+                } else {
+                  navigate('DriverQueue', {})
+                }
+              })
               console.log("nav");
-              navigate('Rider', {});
+
               console.log("navigated");
             } else {
               this.openAlert('No account for that EID', 'Please make an account for that EID');
@@ -113,22 +120,22 @@ export default class LoginScreen extends React.Component {
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
-        <View style={styles.container}>
-          <Image source={require('../assets/images/surewalk.png')} style={styles.logo} />
+        <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
+          <View style={styles.container}>
+            <Image source={require('../assets/images/surewalk.png')} style={styles.logo} />
 
-          <Form ref={c => this._form = c} value={this.state.value} type={User} options={options} />
+            <Form ref={c => this._form = c} value={this.state.value} type={User} options={options} />
 
 
-          <TouchableOpacity style={styles.button} title="Login" onPress={() => this.handleSubmit()}>
-            <Text style={styles.buttonTxt}>{this.state.loginText}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.registerButton} title="Register" onPress={() => navigate('Main', {})}>
-            <Text style={styles.registerText}>Make Account</Text>
+            <TouchableOpacity style={styles.button} title="Login" onPress={() => this.handleSubmit()}>
+              <Text style={styles.buttonTxt}>{this.state.loginText}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.registerButton} title="Register" onPress={() => navigate('Main', {})}>
+              <Text style={styles.registerText}>Make Account</Text>
 
-          </TouchableOpacity>
-        </View>
-      </ImageBackground >
+            </TouchableOpacity>
+          </View>
+        </ImageBackground >
       </KeyboardAvoidingView>
     );
   }
@@ -197,8 +204,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     flexDirection: 'column',
-    paddingTop: 30,
-    padding: 20,
   },
   logo: {
     flex: 1,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, FlatList, Button } from 'react-native';
+import { Image, ActivityIndicator, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, FlatList, Button } from 'react-native';
 import { WebBrowser } from 'expo';
 import ApiKeys from '../constants/ApiKeys'
 import * as firebase from 'firebase';
@@ -11,7 +11,11 @@ export default class DriverQueueScreen extends React.Component {
 
     this.state = {
       riders: [],
-      refresh: false
+      refresh: false,
+      loading: true,
+      loadingmargin: {
+        marginTop: '70%'
+      }
     }
 
     if (!firebase.apps.length) {
@@ -33,7 +37,6 @@ export default class DriverQueueScreen extends React.Component {
             .forEach(ride_key => {
               if (data[ride_key].status == 1) {
                 //initRiders.unshift(data[ride_key]);
-
                 initRiders.unshift({
                   campus: data[ride_key].campus,
                   driverid: data[ride_key].driverid,
@@ -52,7 +55,8 @@ export default class DriverQueueScreen extends React.Component {
               }
             });
           this.setState({
-            riders: initRiders
+            riders: initRiders,
+            loading: false,
           })
         }
       });
@@ -82,7 +86,10 @@ export default class DriverQueueScreen extends React.Component {
           })
 
           this.setState({
-            refresh: !this.state.refresh
+            refresh: !this.state.refresh,
+            loadingmargin: {
+              margin: '0%'
+            }
           })
         }
       })
@@ -136,9 +143,6 @@ export default class DriverQueueScreen extends React.Component {
     header: null,
   };
 
-
-
-
   render() {
 
     const { navigate } = this.props.navigation;
@@ -154,6 +158,7 @@ export default class DriverQueueScreen extends React.Component {
           <Button title="< Rider Status" onPress={() =>
             navigate('RiderStatus', {})
           } />
+          <ActivityIndicator animating={this.state.loading} style={this.state.loadingmargin} size="large" color="#fff" />
           <FlatList
             data={this.state.riders}
             extraData={this.state.refresh}

@@ -63,8 +63,6 @@ export default class RiderScreen extends React.Component {
 
   async storeItem(key, item) {
     try {
-      //we want to wait for the Promise returned by AsyncStorage.setItem()
-      //to be resolved to the actual value before returning the value
       var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
       return jsonOfItem;
     } catch (error) {
@@ -393,7 +391,6 @@ export default class RiderScreen extends React.Component {
                     method: 'POST',
                     body: JSON.stringify(this.state.request)
                   }).then((response) => {
-                    console.log(response);
                     this.storeItem('@Ride', this.state.request)
                       .then(() => navigate('RiderStatus', {}))
                   })

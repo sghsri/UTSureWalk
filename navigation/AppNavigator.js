@@ -15,7 +15,7 @@ export default createSwitchNavigator({
   // Read more at https://reactnavigation.org/docs/en/auth-flow.html
 
   Login: { screen: LoginScreen },
-  // SignUp: {screen : SignUpScreen},
+  SignUp: { screen: SignUpScreen },
   Main: { screen: HomeScreen },
   Rider: RiderScreen,
   RiderStatus: { screen: RiderStatusScreen },
