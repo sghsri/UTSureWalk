@@ -275,7 +275,9 @@ export default class RiderStatusScreen extends React.Component {
                             </TouchableOpacity>
                         </View>
                         :
-                        <View></View>}
+                        <TouchableOpacity style={styles.button} title="" onPress={() => navigate('Login', {})}>
+                            <Text style={styles.buttonTxt}>Close</Text>
+                        </TouchableOpacity>}
 
                     <TouchableOpacity style={styles.mainButton} title="Driver ->" onPress={() => {
                         Communications.phonecall('5122329255', true);

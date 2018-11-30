@@ -95,7 +95,9 @@ export default class DriverQueueScreen extends React.Component {
         this.startLoading();
         const initRiders = [];
         this.state.riders.forEach(function (value) {
-          initRiders.unshift(value);
+          if (value.ride_id != snapshot.key) {
+            initRiders.unshift(value);
+          }
         });
         const data = snapshot.val();
         if (data) {
