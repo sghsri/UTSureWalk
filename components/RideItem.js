@@ -72,31 +72,44 @@ export default class RideItem extends React.Component {
         return moment((this.state.timestamp * 1000)).fromNow();
     }
 
+    openAlert(title, message) {
+        Alert.alert(
+            title,
+            message,
+            [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false }
+        )
+    }
+
     render() {
         return (
-            <View style={styles.rideItemComponent}>
-                <View style={styles.topBar}>
-                    <Text style={styles.topBarText}>{this.state.rider} | {this.getFormattedTime()}</Text>
-                    <View style={styles.handView}>
-                        <Image source={require('../assets/images/HandicapTemp.png')} style={styles.handicap} />
+            <TouchableOpacity onPress={() => this.openAlert('Extra Info', this.state.note + "\n" + this.state.numriders + " Riders")}>
+                <View style={styles.rideItemComponent} >
+                    <View style={styles.topBar}>
+                        <Text style={styles.topBarText}>{this.state.rider + '(' + this.state.riderid + ')'} | {this.getFormattedTime()}</Text>
+                        <View style={styles.handView}>
+                            <Image source={require('../assets/images/HandicapTemp.png')} style={styles.handicap} />
+                        </View>
+                    </View>
+                    <View style={styles.locations} >
+                        <Image source={require('../assets/images/TravelDotsTemp.png')} style={styles.locationImage} />
+                        <View style={styles.locationTexts}>
+                            <Text numberOfLines={1} style={styles.locationTextInd}>{this.state.pickup}</Text>
+                            <Text numberOfLines={1} style={styles.locationTextInd}>{this.state.dropoff}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.buttonView}>
+                        <TouchableOpacity style={styles.outlinedButton} color='#E87636' title='Pick Up' onPress={this.onPickup.bind(this)}>
+                            <Text style={styles.buttonText}>Pick Up</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.outlinedButton} color='#E87636' title='No Show' onPress={this.onNoShow.bind(this)}>
+                            <Text style={styles.buttonText}>No Show</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
-                <View style={styles.locations}>
-                    <Image source={require('../assets/images/TravelDotsTemp.png')} style={styles.locationImage} />
-                    <View style={styles.locationTexts}>
-                        <Text numberOfLines={1} style={styles.locationTextInd}>{this.state.pickup}</Text>
-                        <Text numberOfLines={1} style={styles.locationTextInd}>{this.state.dropoff}</Text>
-                    </View>
-                </View>
-                <View style={styles.buttonView}>
-                    <TouchableOpacity style={styles.outlinedButton} color='#E87636' title='Pick Up' onPress={this.onPickup.bind(this)}>
-                        <Text style={styles.buttonText}>Pick Up</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.outlinedButton} color='#E87636' title='No Show' onPress={this.onNoShow.bind(this)}>
-                        <Text style={styles.buttonText}>No Show</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            </TouchableOpacity>
 
         )
     }

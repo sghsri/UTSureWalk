@@ -46,6 +46,7 @@ export default class DriverQueueScreen extends React.Component {
       loading: false
     })
   }
+
   componentDidMount() {
     this.startLoading();
     firebase
@@ -65,11 +66,11 @@ export default class DriverQueueScreen extends React.Component {
                   campus: data[ride_key].campus,
                   driverid: data[ride_key].driverid,
                   dropoff: data[ride_key].dropoff,
-                  note: data[ride_key].note,
-                  numriders: data[ride_key].numriders,
+                  note: data[ride_key].notes,
+                  numriders: data[ride_key].numRiders,
                   pickup: data[ride_key].pickup,
                   rider: data[ride_key].User._55.name,
-                  riderid: data[ride_key].riderid,
+                  riderid: data[ride_key].User._55.eid,
                   status: data[ride_key].status,
                   timestamp: data[ride_key].timestamp,
                   phone: data[ride_key].User._55.phone,
@@ -99,8 +100,8 @@ export default class DriverQueueScreen extends React.Component {
               campus: data.campus,
               driverid: data.driverid,
               dropoff: data.dropoff,
-              note: data.note,
-              numriders: data.numriders,
+              note: data.notes,
+              numriders: data.numRiders,
               pickup: data.pickup,
               rider: data.rider,
               riderid: data.riderid,
@@ -138,8 +139,8 @@ export default class DriverQueueScreen extends React.Component {
               campus: data.campus,
               driverid: data.driverid,
               dropoff: data.dropoff,
-              note: data.note,
-              numriders: data.numriders,
+              note: data.notes,
+              numriders: data.numRiders,
               pickup: data.pickup,
               rider: data.User._55.name,
               riderid: data.riderid,

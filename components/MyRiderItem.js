@@ -61,50 +61,63 @@ export default class MyRiderItem extends React.Component {
         Communications.web('https://www.google.com/maps/search/?api=1&query=' + dropoff)
     }
 
+    openAlert(title, message) {
+        Alert.alert(
+            title,
+            message,
+            [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false }
+        )
+    }
+
 
     render() {
         return (
-            <View style={styles.MyRiderComponent}>
-                <View style={styles.topBar}>
-                    <Text style={styles.topBarText}>{this.state.rider}</Text>
+            <TouchableOpacity onPress={() => this.openAlert('Extra Info', this.state.note + "\n" + this.state.numriders + " Riders")}>
+                <View style={styles.MyRiderComponent}>
+                    <View style={styles.topBar}>
+                        <Text style={styles.topBarText}>{this.state.rider + '(' + this.state.riderid + ')'}</Text>
 
-                    <TouchableOpacity style={styles.handView} onPress={this.onPhoneCallPress.bind(this, String(this.state.phone))}>
-                        <Image
-                            source={require('../assets/icons/phone.png')}
-                            style={styles.phoneCall}
-                        />
-                    </TouchableOpacity>
+                        <TouchableOpacity style={styles.handView} onPress={this.onPhoneCallPress.bind(this, String(this.state.phone))}>
+                            <Image
+                                source={require('../assets/icons/phone.png')}
+                                style={styles.phoneCall}
+                            />
+                        </TouchableOpacity>
 
-                    <View style={styles.handView}>
-                        <Image source={require('../assets/images/HandicapTemp.png')} style={styles.handicap} />
+                        <View style={styles.handView}>
+                            <Image source={require('../assets/images/HandicapTemp.png')} style={styles.handicap} />
+                        </View>
                     </View>
-                </View>
 
-                <View style={styles.locations}>
-                    <Image source={require('../assets/images/TravelDotsTemp.png')} style={styles.locationImage} />
-                    <View style={styles.locationTexts}>
-                        <Text numberOfLines={1} style={styles.locationTextInd}>{this.state.pickup}</Text>
-                        <Text numberOfLines={1} style={styles.locationTextInd}>{this.state.dropoff}</Text>
+                    <View style={styles.locations}>
+                        <Image source={require('../assets/images/TravelDotsTemp.png')} style={styles.locationImage} />
+                        <View style={styles.locationTexts}>
+                            <Text numberOfLines={1} style={styles.locationTextInd}>{this.state.pickup}</Text>
+                            <Text numberOfLines={1} style={styles.locationTextInd}>{this.state.dropoff}</Text>
+                        </View>
                     </View>
+
+                    <View style={styles.buttonView}>
+                        <TouchableOpacity style={styles.outlinedButton} title='Dropoff' onPress={this.onDropoff.bind(this)}>
+                            <Text style={styles.buttonText}>Drop Off </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.outlinedButton} title='No Show' onPress={this.onNoShow}>
+                            <Text style={styles.buttonText}>No Show </Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View stlye={styles.infoButtons}>
+                        <TouchableOpacity onPress={this.onMapPress.bind(this, this.state.dropoff)}>
+                            <Text style={styles.infoText}>View Route</Text>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
-
-                <View style={styles.buttonView}>
-                    <TouchableOpacity style={styles.outlinedButton} title='Dropoff' onPress={this.onDropoff.bind(this)}>
-                        <Text style={styles.buttonText}>Drop Off </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.outlinedButton} title='No Show' onPress={this.onNoShow}>
-                        <Text style={styles.buttonText}>No Show </Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View stlye={styles.infoButtons}>
-                    <TouchableOpacity onPress={this.onMapPress.bind(this, this.state.dropoff)}>
-                        <Text style={styles.infoText}>View Route</Text>
-                    </TouchableOpacity>
-                </View>
-
-            </View>
+            </TouchableOpacity>
         )
     }
 
