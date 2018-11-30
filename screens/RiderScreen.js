@@ -404,10 +404,6 @@ export default class RiderScreen extends React.Component {
 
               <Text style={styles.buttonTxt}>Home</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.devButton} title="Driver ->" onPress={() => navigate('DriverQueue', {})}>
-              <Text style={styles.buttonTxt}>Driver</Text>
-
-            </TouchableOpacity>
           </ScrollView>
         </KeyboardAvoidingView>
       </ImageBackground>

@@ -14,7 +14,7 @@ export default class DriverRidersScreen extends React.Component {
     this.mydriverid = '';
     this.state = {
       riders: [],
-      refresh: false
+      refresh: true
     }
 
     if (!firebase.apps.length) {
@@ -106,7 +106,7 @@ export default class DriverRidersScreen extends React.Component {
             initRiders.unshift(value);
           }
         });
-
+        console.log(initRiders);
         this.setState({
           riders: initRiders
         })
@@ -158,17 +158,12 @@ export default class DriverRidersScreen extends React.Component {
       <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
         <View style={styles.container}>
           <FlatList
+            style={{ borderWidth: 3, elevation: 1, borderColor: 'white', borderRadius: 20, padding: 15 }}
             data={this.state.riders}
             extraData={this.state.refresh}
             renderItem={this.renderItem}
             keyExtractor={(item, index) => item.ride_id}
           />
-          <Button title="< Rider Status" onPress={() =>
-            navigate('RiderStatus', {})
-          } />
-          <Button title="< Home" onPress={() =>
-            navigate('Login', {})
-          } />
         </View>
       </ImageBackground>
     );

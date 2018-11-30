@@ -14,7 +14,10 @@ export default class DriverQueueScreen extends React.Component {
       refresh: false,
       loading: true,
       loadingmargin: {
-        marginTop: '70%'
+        marginTop: '100%',
+        alignSelf: 'center',
+        position: 'absolute'
+
       }
     }
 
@@ -88,7 +91,9 @@ export default class DriverQueueScreen extends React.Component {
           this.setState({
             refresh: !this.state.refresh,
             loadingmargin: {
-              margin: '0%'
+              margin: '0%',
+              alignSelf: 'center',
+              position: 'absolute'
             }
           })
         }
@@ -152,19 +157,23 @@ export default class DriverQueueScreen extends React.Component {
       <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
 
         <View style={styles.container}>
-          <Button title="< Home" onPress={() =>
-            navigate('Login', {})
-          } />
-          <Button title="< Rider Status" onPress={() =>
-            navigate('RiderStatus', {})
-          } />
+          <Text style={styles.title}>Queued Ride Requests</Text>
           <ActivityIndicator animating={this.state.loading} style={this.state.loadingmargin} size="large" color="#fff" />
           <FlatList
+            style={{ borderWidth: 3, elevation: 1, borderColor: 'white', borderRadius: 20, padding: 15, }}
             data={this.state.riders}
             extraData={this.state.refresh}
             renderItem={this.renderItem}
             keyExtractor={(item, index) => item.ride_id}
           />
+          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+            <TouchableOpacity style={styles.button} title="Be a Rider" onPress={() => navigate('Rider', {})}>
+              <Text style={styles.buttonTxt}>Rider</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} title="Driver ->" onPress={() => navigate('DriverQueue', {})}>
+              <Text style={styles.buttonTxt}>Driver</Text>
+            </TouchableOpacity>
+          </View>
 
         </View>
       </ImageBackground>
@@ -179,6 +188,39 @@ const styles = StyleSheet.create({
   containerImg: {
     width: '100%',
     height: '100%',
+  },
+  title: {
+    color: 'white',
+    padding: 10,
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 25,
+    fontWeight: '600'
+  },
+  buttonView: {
+    flexDirection: 'row',
+    marginLeft: '4%',
+    marginRight: '4%',
+  },
+  button: {
+    backgroundColor: 'white',
+    margin: 20,
+    padding: 10,
+    width: '40%',
+    alignSelf: 'center',
+    marginBottom: 5,
+    marginTop: 50,
+    marginRight: 5,
+    borderRadius: 50
+  },
+  buttonTxt: {
+    alignSelf: 'center',
+    color: '#E87636',
+    fontSize: 16,
+    fontWeight: '600',
+    paddingTop: 5,
+    paddingBottom: 5,
   },
   container: {
     flex: 1,

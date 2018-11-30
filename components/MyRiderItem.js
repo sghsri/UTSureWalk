@@ -89,13 +89,13 @@ export default class MyRiderItem extends React.Component {
                 </View>
 
                 <View style={styles.buttonView}>
-                    <View style={styles.outlinedButton}>
-                        <Button color='#E87636' title='DropOff' onPress={this.onDropoff.bind(this)} />
-                    </View>
-                    <View style={styles.outlinedButton}>
-                        <Button color='#E87636' title='No Show' onPress={this.onNoShow} />
+                    <TouchableOpacity style={styles.outlinedButton} title='Dropoff' onPress={this.onDropoff.bind(this)}>
+                        <Text style={styles.buttonText}>Drop Off </Text>
+                    </TouchableOpacity>
 
-                    </View>
+                    <TouchableOpacity style={styles.outlinedButton} title='No Show' onPress={this.onNoShow}>
+                        <Text style={styles.buttonText}>No Show </Text>
+                    </TouchableOpacity>
                 </View>
 
                 <View stlye={styles.infoButtons}>
@@ -117,11 +117,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingTop: '3%',
         paddingBottom: '9%',
-        marginBottom: '10%',
+        marginBottom: '5%',
     },
     buttonView: {
-        flex: 2,
+        flex: 1,
         flexDirection: 'row',
+        marginTop: 10,
         marginLeft: '4%',
         marginRight: '4%',
         marginBottom: '5%',
@@ -131,10 +132,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 15,
         borderWidth: 1,
+        margin: 5,
         borderColor: '#E87636',
-        marginLeft: '2%',
-        marginRight: '2%',
-        marginTop: '2%',
+        padding: 1,
+        justifyContent: "center", alignItems: "center"
+    },
+    buttonText: {
+        textAlign: 'center',
+        fontSize: 17,
+        fontWeight: '600',
+        color: '#E87636',
+        textAlignVertical: "center", textAlign: "center",
     },
     topBar: {
         flexDirection: 'row',
@@ -186,12 +194,13 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%',
         resizeMode: 'contain',
+        tintColor: '#E87636'
     },
     infoButtons: {
         paddingLeft: '5%',
     },
     infoText: {
-        paddingLeft: '5%',
+        paddingLeft: '7%',
         fontFamily: 'libre-franklin-semibold',
         color: '#E87636',
     }
