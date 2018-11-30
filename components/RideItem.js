@@ -89,9 +89,6 @@ export default class RideItem extends React.Component {
                 <View style={styles.rideItemComponent} >
                     <View style={styles.topBar}>
                         <Text style={styles.topBarText}>{this.state.rider + ' (' + this.state.riderid + ')'} | {this.getFormattedTime()}</Text>
-                        <View style={styles.handView}>
-                            <Image source={require('../assets/images/HandicapTemp.png')} style={styles.handicap} />
-                        </View>
                     </View>
                     <View style={styles.locations} >
                         <Image source={require('../assets/images/TravelDotsTemp.png')} style={styles.locationImage} />

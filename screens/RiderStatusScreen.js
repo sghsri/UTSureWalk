@@ -82,7 +82,8 @@ export default class RiderStatusScreen extends React.Component {
                                 this.setState({ statusText: 'A Driver is coming to pick you up!', status: 2 });
                                 break;
                             case 3:
-                                this.setState({ statusText: 'You are in transit', status: 3 })
+                                this.setState({ statusText: 'You are in Transit!', status: 3 })
+                                break;
                             case 4:
                                 this.setState({ statusText: 'Thank you for Riding with Surewalk!', status: 4 });
                                 break;

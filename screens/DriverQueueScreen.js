@@ -17,12 +17,10 @@ export default class DriverQueueScreen extends React.Component {
 
       }
     }
-
     if (!firebase.apps.length) {
       firebase.initializeApp(ApiKeys.FirebaseConfig);
     }
   }
-
   startLoading() {
     this.setState({
       loadingmargin: {
@@ -76,7 +74,6 @@ export default class DriverQueueScreen extends React.Component {
                   phone: data[ride_key].User._55.phone,
                   ride_id: ride_key
                 });
-
               }
             });
           this.setState({
@@ -141,7 +138,7 @@ export default class DriverQueueScreen extends React.Component {
         });
         const data = snapshot.val();
         if (data) {
-          if ((data.status == 2 || data.status == 1) && !data.driverid) {
+          if ((data.status == 2 || data.status == 1 || data.status == 3) && !data.driverid) {
             var val = {
               campus: data.campus,
               driverid: data.driverid,

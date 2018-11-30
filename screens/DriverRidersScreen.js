@@ -69,7 +69,7 @@ export default class DriverRidersScreen extends React.Component {
           riders: []
         })
         const data = snapshot.val();
-        if (data && data.driverid == this.mydriverid && data.status == 2) {
+        if (data && data.driverid == this.mydriverid && (data.status == 2 || data.status == 3)) {
           this.setState(prevState => ({
             riders: [{
               campus: data.campus,
@@ -107,7 +107,7 @@ export default class DriverRidersScreen extends React.Component {
           Object
             .keys(data)
             .forEach(ride_key => {
-              if (data[ride_key].driverid == this.mydriverid && data[ride_key].status == 2) {
+              if (data[ride_key].driverid == this.mydriverid && (data[ride_key].status == 2 || data[ride_key].status == 3)) {
                 initRiders.unshift({
                   campus: data[ride_key].campus,
                   driverid: data[ride_key].driverid,
@@ -146,7 +146,7 @@ export default class DriverRidersScreen extends React.Component {
         });
         const data = snapshot.val();
         if (data) {
-          if (data.status == 2) {
+          if (data.status == 2 || data.status == 3) {
             var val = {
               campus: data.campus,
               driverid: data.driverid,

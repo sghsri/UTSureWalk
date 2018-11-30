@@ -95,7 +95,6 @@ export default class MyRiderItem extends React.Component {
                 <View style={styles.MyRiderComponent}>
                     <View style={styles.topBar}>
                         <Text style={styles.topBarText}>{this.state.rider + ' (' + this.state.riderid + ')'}</Text>
-
                         <TouchableOpacity style={styles.handView} onPress={this.onPhoneCallPress.bind(this, String(this.state.phone))}>
                             <Image
                                 source={require('../assets/icons/phone.png')}
@@ -103,9 +102,11 @@ export default class MyRiderItem extends React.Component {
                             />
                         </TouchableOpacity>
 
-                        <View style={styles.handView}>
-                            <Image source={require('../assets/images/HandicapTemp.png')} style={styles.handicap} />
-                        </View>
+                        {this.state.status == 3 ?
+                            <View style={styles.handView}>
+                                <Image source={require('../assets/images/HandicapTemp.png')} style={styles.handicap} />
+                            </View>
+                            : <View></View>}
                     </View>
 
                     <View style={styles.locations}>
