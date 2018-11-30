@@ -31,7 +31,7 @@ export default class RiderScreen extends React.Component {
         dropoff: '',
         notes: '',
         numRiders: '',
-        driverID: 0,
+        driverid: 0,
         onCampus: this.onCampus(),
         status: 1,
       },

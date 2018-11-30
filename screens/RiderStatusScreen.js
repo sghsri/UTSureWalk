@@ -17,6 +17,10 @@ export default class RiderStatusScreen extends React.Component {
             ride: '',
             id: '',
             statusText: 'Loading...',
+            driverText: 'Searching...',
+            driverPhone: '',
+            status: 1
+
         };
         this.retrieveItem('@Ride')
             .then((theride) => {
@@ -69,22 +73,24 @@ export default class RiderStatusScreen extends React.Component {
                 var contains = false;
                 for (var key in myJson) {
                     if (myJson.hasOwnProperty(key) && key == this.state.id) {
-                        var status = myJson[key].status;
+                        var upride = myJson[key];
+                        var status = upride.status;
                         switch (status) {
                             case 1:
-                                this.setState({ statusText: 'Your Ride is in the Queue' });
+                                this.setState({ statusText: 'Your Ride is in the Queue', status: 1 });
                                 break;
                             case 2:
-                                this.setState({ statusText: 'A Driver is coming to pick you up!' });
+                                this.setState({ statusText: 'A Driver is coming to pick you up!', status: 2 });
+                                this.getDriverInfo(upride.driverid);
                                 break;
                             case 4:
-                                this.setState({ statusText: 'Thank you for Riding with Surewalk!' });
+                                this.setState({ statusText: 'Thank you for Riding with Surewalk!', status: 4 });
                                 break;
                             default:
-                                this.setState({ statusText: 'There was an Error' });
+                                this.setState({ statusText: 'There was an Error', status: 5 });
                                 break;
                         }
-
+                        break;
                     }
                 }
             })
@@ -106,7 +112,6 @@ export default class RiderStatusScreen extends React.Component {
             console.log(error.message);
         }
     }
-
     async retrieveItem(key) {
         try {
             const retrievedItem = await AsyncStorage.getItem(key);
@@ -123,6 +128,79 @@ export default class RiderStatusScreen extends React.Component {
         this.openAlert('Cancel Ride?', 'Are you sure you want to cancel your Ride Request?');
     }
 
+
+    driverButtonStyle() {
+        if (!this.state.driverPhone) {
+            return {
+                backgroundColor: '#B43757',
+                margin: 20,
+                padding: 10,
+                width: '40%',
+                alignSelf: 'center',
+                marginBottom: 10,
+                marginTop: 50,
+                marginRight: 5,
+                borderRadius: 50
+            }
+        } else {
+            return {
+                backgroundColor: 'white',
+                margin: 20,
+                padding: 10,
+                width: '40%',
+                alignSelf: 'center',
+                marginBottom: 10,
+                marginTop: 50,
+                marginRight: 5,
+                borderRadius: 50
+            };
+        }
+    }
+
+    driverButtonTextStyle() {
+        if (!this.state.driverPhone) {
+            return {
+                alignSelf: 'center',
+                color: 'white',
+                fontSize: 16,
+                fontWeight: '600',
+                paddingTop: 5,
+                paddingBottom: 5,
+
+            }
+        } else {
+            return {
+                alignSelf: 'center',
+                color: '#E87636',
+                fontSize: 16,
+                fontWeight: '600',
+                paddingTop: 5,
+                paddingBottom: 5,
+
+            }
+        }
+    }
+
+    getDriverInfo(eid) {
+        fetch('https://react-test-79a3b.firebaseio.com/users.json')
+            .then(function (response) {
+                return response.json();
+            })
+            .then((myJson) => {
+                var contains = false;
+                for (var key in myJson) {
+                    if (myJson.hasOwnProperty(key)) {
+                        var user = myJson[key];
+                        console.log(user);
+                        if (user.eid === eid) {
+                            this.setState({ driverText: user.name + " (" + eid + ")", driverPhone: user.phone });
+                            break;
+                        }
+                    }
+                }
+                return "Error";
+            })
+    }
 
     openAlert(title, message) {
         const { navigate } = this.props.navigation;
@@ -170,16 +248,38 @@ export default class RiderStatusScreen extends React.Component {
                         <Text style={styles.title}>Dropoff: </Text>
                         <Text style={styles.info}>{this.state.ride.dropoff}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 10 }}>
-                        <TouchableOpacity style={styles.button} title="" onPress={() => this.handleCancel()}>
-                            <Text style={styles.buttonTxt}>Cancel</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} title="Driver ->" onPress={() => {
-                            Communications.phonecall('5122329255', true);
-                        }}>
-                            <Text style={styles.buttonTxt}>Contact</Text>
-                        </TouchableOpacity>
+                    <View flexDirection='row' style={{
+                        justifyContent: 'space-between',
+                        marginTop: 10,
+                        marginLeft: 5,
+                        marginRight: 5
+                    }}>
+                        <Text style={styles.title}>Driver: </Text>
+                        <Text style={styles.info}>{this.state.driverText}</Text>
                     </View>
+                    {this.state.status != 4 ?
+                        <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 10 }}>
+                            <TouchableOpacity style={styles.button} title="" onPress={() => this.handleCancel()}>
+                                <Text style={styles.buttonTxt}>Cancel</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={this.driverButtonStyle()} title="Driver ->" onPress={() => {
+                                if (this.state.driverPhone) {
+                                    Communications.phonecall(this.state.driverPhone + '', true);
+                                } else {
+
+                                }
+                            }}>
+                                <Text style={this.driverButtonTextStyle()}>{this.state.driverPhone ? "Call Driver" : "Searching..."}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        :
+                        <View></View>}
+
+                    <TouchableOpacity style={styles.mainButton} title="Driver ->" onPress={() => {
+                        Communications.phonecall('5122329255', true);
+                    }}>
+                        <Text style={styles.buttonTxt}>Call Surewalk Office</Text>
+                    </TouchableOpacity>
 
                 </View>
             </ImageBackground >
@@ -211,6 +311,17 @@ const styles = StyleSheet.create({
         margin: 20,
         padding: 10,
         width: '40%',
+        alignSelf: 'center',
+        marginBottom: 10,
+        marginTop: 50,
+        marginRight: 5,
+        borderRadius: 50
+    },
+    mainButton: {
+        backgroundColor: 'white',
+        margin: 20,
+        padding: 10,
+        width: '60%',
         alignSelf: 'center',
         marginBottom: 10,
         marginTop: 50,
