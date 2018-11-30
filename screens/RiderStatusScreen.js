@@ -1,6 +1,8 @@
 import React from 'react';
 import { Image, ImageBackground, TextInput, Platform, AsyncStorage, ScrollView, Alert, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { WebBrowser } from 'expo';
+import ApiKeys from '../constants/ApiKeys'
+import * as firebase from 'firebase';
 
 
 export default class RiderStatusScreen extends React.Component {
@@ -10,6 +12,11 @@ export default class RiderStatusScreen extends React.Component {
     constructor(props) {
         super(props);
         const { navigate } = this.props.navigation;
+        this.state = {
+            ride: '',
+            id: '',
+            statusText: 'Loading...',
+        };
         this.retrieveItem('@Ride')
             .then((theride) => {
                 if (theride) {
@@ -28,7 +35,7 @@ export default class RiderStatusScreen extends React.Component {
                                     var val = myJson[key];
                                     if (val.timestamp === theride.timestamp) {
                                         console.log(key);
-                                        this.setState({ ride: theride, id: key, statusText: '' });
+                                        this.setState({ ride: theride, id: key });
                                         break;
                                     }
                                 }
@@ -38,11 +45,10 @@ export default class RiderStatusScreen extends React.Component {
                     //no user error reroute back to main
                 }
             })
-        this.state = {
-            ride: '',
-            id: '',
-            statusText: 'hello',
-        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(ApiKeys.FirebaseConfig);
+        }
+
     }
 
     componentDidMount() {
@@ -75,7 +81,6 @@ export default class RiderStatusScreen extends React.Component {
                                 break;
                             default:
                                 this.setState({ statusText: 'There was an Error' });
-
                                 break;
                         }
 
@@ -110,12 +115,31 @@ export default class RiderStatusScreen extends React.Component {
     }
 
 
+    handleCancel() {
+        this.openAlert('Cancel Ride?', 'Are you sure you want to cancel your Ride Request?');
+    }
+
+
     openAlert(title, message) {
+        const { navigate } = this.props.navigation;
         Alert.alert(
             title,
             message,
             [
-                { text: 'OK', onPress: () => console.log('OK Pressed') },
+                {
+                    text: 'Yes', onPress: () => {
+                        try {
+                            firebase.database().ref('rides/' + this.state.id).update({
+                                status: 5
+                            }).then(() => { navigate('Login', {}) }, (error) => { console.log(error) });
+
+                        } catch (error) {
+                            console.log(error.message);
+                        }
+
+                    }
+                },
+                { text: 'No', onPress: () => { } }
             ],
             { cancelable: false }
         )
@@ -127,20 +151,30 @@ export default class RiderStatusScreen extends React.Component {
                 <View style={styles.container}>
                     <Text style={styles.status}>{this.state.statusText}</Text>
                     <View flexDirection='row' style={{
-                        justifyContent: 'space-between'
+                        justifyContent: 'space-between',
+                        marginLeft: 5,
+                        marginRight: 5
                     }}>
                         <Text style={styles.title}>Pickup: </Text>
                         <Text style={styles.info}>{this.state.ride.pickup}</Text>
                     </View>
                     <View flexDirection='row' style={{
-                        justifyContent: 'space-between'
+                        justifyContent: 'space-between',
+                        marginLeft: 5,
+                        marginRight: 5
                     }}>
                         <Text style={styles.title}>Dropoff: </Text>
                         <Text style={styles.info}>{this.state.ride.dropoff}</Text>
                     </View>
-                    <TouchableOpacity style={styles.button} title="Driver ->" onPress={() => navigate('DriverQueue', {})}>
-                        <Text style={styles.buttonTxt}>Driver</Text>
-                    </TouchableOpacity>
+                    <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 10 }}>
+                        <TouchableOpacity style={styles.button} title="" onPress={() => this.handleCancel()}>
+                            <Text style={styles.buttonTxt}>Cancel</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} title="Driver ->" onPress={() => navigate('DriverQueue', {})}>
+                            <Text style={styles.buttonTxt}>Contact</Text>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
             </ImageBackground >
         );
@@ -170,7 +204,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         margin: 20,
         padding: 10,
-        width: '60%',
+        width: '40%',
         alignSelf: 'center',
         marginBottom: 10,
         marginTop: 50,

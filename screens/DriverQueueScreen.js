@@ -132,7 +132,7 @@ export default class DriverQueueScreen extends React.Component {
         });
         const data = snapshot.val();
         if (data) {
-          if (data.status == 2 && !data.driverid) {
+          if ((data.status == 2 || data.status == 1) && !data.driverid) {
             var val = {
               campus: data.campus,
               driverid: data.driverid,

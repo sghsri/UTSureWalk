@@ -41,8 +41,6 @@ export default class RideItem extends React.Component {
 
 
     async onPickup() {
-        Alert.alert('Pick Up!')
-
         try {
             const retrievedItem = await AsyncStorage.getItem("@User");
             const item = JSON.parse(retrievedItem);
@@ -59,8 +57,6 @@ export default class RideItem extends React.Component {
     }
 
     onNoShow() {
-        Alert.alert('No Show!')
-
         try {
             firebase.database().ref('rides/' + this.state.ride_id).update({
                 status: 5
