@@ -81,7 +81,6 @@ export default class RiderStatusScreen extends React.Component {
                                 break;
                             case 2:
                                 this.setState({ statusText: 'A Driver is coming to pick you up!', status: 2 });
-                                this.getDriverInfo(upride.driverid);
                                 break;
                             case 4:
                                 this.setState({ statusText: 'Thank you for Riding with Surewalk!', status: 4 });
@@ -89,6 +88,9 @@ export default class RiderStatusScreen extends React.Component {
                             default:
                                 this.setState({ statusText: 'There was an Error', status: 5 });
                                 break;
+                        }
+                        if (status != 1) {
+                            this.getDriverInfo(upride.driverid);
                         }
                         break;
                     }
