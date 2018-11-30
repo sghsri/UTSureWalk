@@ -93,29 +93,34 @@ export default class DriverQueueScreen extends React.Component {
       .child("rides")
       .on("child_added", snapshot => {
         this.startLoading();
+        const initRiders = [];
+        this.state.riders.forEach(function (value) {
+          initRiders.unshift(value);
+        });
         const data = snapshot.val();
         if (data) {
-          this.setState(prevState => {
-            riders: [{
-              campus: data.campus,
-              driverid: data.driverid,
-              dropoff: data.dropoff,
-              note: data.notes,
-              numriders: data.numRiders,
-              pickup: data.pickup,
-              rider: data.rider,
-              riderid: data.riderid,
-              status: data.status,
-              timestamp: data.timestamp,
-              phone: data.phone,
-              ride_id: snapshot.key
-            }, ...prevState.riders]
-          })
-          this.stopLoading();
-          this.setState({
-            refresh: !this.state.refresh,
-          })
+          console.log('data works');
+          var val = {
+            campus: data.campus,
+            driverid: data.driverid,
+            dropoff: data.dropoff,
+            note: data.notes,
+            numriders: data.numRiders,
+            pickup: data.pickup,
+            rider: data.User._55.name,
+            riderid: data.User._55.eid,
+            status: data.status,
+            timestamp: data.timestamp,
+            phone: data.phone,
+            ride_id: snapshot.key
+          };
+          initRiders.unshift(val);
         }
+        this.stopLoading();
+        this.setState({
+          riders: initRiders,
+          refresh: !this.state.refresh
+        })
       })
 
     firebase
@@ -195,7 +200,7 @@ export default class DriverQueueScreen extends React.Component {
       <ImageBackground source={require('../assets/images/Fade.png')} style={styles.containerImg}>
 
         <View style={styles.container}>
-          <Text style={styles.title}>Queued Ride Requests</Text>
+          <Text style={styles.title}>Ride Request Queue</Text>
           <ActivityIndicator animating={this.state.loading} style={this.state.loadingmargin} size="large" color="#fff">
           </ActivityIndicator>
           <Text style={styles.emptytext}>{this.state.riders.length == 0 && !this.state.loading ? "No Rides in Queue" : ""}</Text>
@@ -214,7 +219,7 @@ export default class DriverQueueScreen extends React.Component {
               Communications.phonecall('5122329255', true);
             }
             }>
-              <Text style={styles.buttonTxt}>Contact</Text>
+              <Text style={styles.buttonTxt}>Contact Office</Text>
             </TouchableOpacity>
           </View>
 
