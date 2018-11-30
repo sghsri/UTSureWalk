@@ -24,7 +24,10 @@ DriverQueueStack.navigationOptions = {
           : 'md-car'
       }
     />
-  ),
+  ), tabBarOptions: {
+    activeTintColor: '#E87636',
+    inactiveTintColor: 'gray',
+  },
 };
 
 const DriverRidersStack = createStackNavigator({
@@ -36,6 +39,7 @@ DriverRidersStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
+      style={{ color: '#000', }}
       name={
         Platform.OS === 'ios'
           ? `ios-cart${focused ? '' : '-outline'}`
@@ -43,6 +47,10 @@ DriverRidersStack.navigationOptions = {
       }
     />
   ),
+  tabBarOptions: {
+    activeTintColor: '#E87636',
+    inactiveTintColor: 'gray',
+  },
 };
 
 const HomeStack = createStackNavigator({
@@ -54,6 +62,7 @@ HomeStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
+      activeTintColor='#000'
       name={
         Platform.OS === 'ios'
           ? `ios-home${focused ? '' : '-outline'}`

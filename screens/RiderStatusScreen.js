@@ -3,6 +3,7 @@ import { Image, ImageBackground, TextInput, Platform, AsyncStorage, ScrollView, 
 import { WebBrowser } from 'expo';
 import ApiKeys from '../constants/ApiKeys'
 import * as firebase from 'firebase';
+import Communications from 'react-native-communications';
 
 
 export default class RiderStatusScreen extends React.Component {
@@ -91,6 +92,9 @@ export default class RiderStatusScreen extends React.Component {
     componentWillUnmount() {
         clearInterval(this._interval);
     }
+    onPhoneCallPress = (phoneNumber) => {
+        Communications.phonecall(phoneNumber, true);
+    }
 
     async storeItem(key, item) {
         try {
@@ -170,7 +174,9 @@ export default class RiderStatusScreen extends React.Component {
                         <TouchableOpacity style={styles.button} title="" onPress={() => this.handleCancel()}>
                             <Text style={styles.buttonTxt}>Cancel</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} title="Driver ->" onPress={() => navigate('DriverQueue', {})}>
+                        <TouchableOpacity style={styles.button} title="Driver ->" onPress={() => {
+                            Communications.phonecall('5122329255', true);
+                        }}>
                             <Text style={styles.buttonTxt}>Contact</Text>
                         </TouchableOpacity>
                     </View>
