@@ -8,15 +8,11 @@ import RideItem from '../components/RideItem'
 export default class DriverQueueScreen extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       riders: [],
       refresh: false,
       loading: true,
       loadingmargin: {
-        marginTop: '100%',
-        alignSelf: 'center',
-        position: 'absolute'
 
       }
     }
@@ -26,7 +22,30 @@ export default class DriverQueueScreen extends React.Component {
     }
   }
 
+  startLoading() {
+    this.setState({
+      loadingmargin: {
+        marginTop: '100%',
+        marginBottom: '10%',
+        alignSelf: 'center',
+        position: 'absolute'
+      },
+      loading: true
+    })
+  }
+
+  stopLoading() {
+    this.setState({
+      loadingmargin: {
+        margin: '0%',
+        alignSelf: 'center',
+        position: 'absolute'
+      },
+      loading: false
+    })
+  }
   componentDidMount() {
+    this.startLoading();
     firebase
       .database()
       .ref()
@@ -61,6 +80,7 @@ export default class DriverQueueScreen extends React.Component {
             riders: initRiders,
             loading: false,
           })
+          this.stopLoading();
         }
       });
 
@@ -69,6 +89,7 @@ export default class DriverQueueScreen extends React.Component {
       .ref()
       .child("rides")
       .on("child_added", snapshot => {
+        this.startLoading();
         const data = snapshot.val();
         if (data) {
           this.setState(prevState => {
@@ -87,13 +108,9 @@ export default class DriverQueueScreen extends React.Component {
               ride_id: snapshot.key
             }, ...prevState.riders]
           })
+          this.stopLoading();
           this.setState({
             refresh: !this.state.refresh,
-            loadingmargin: {
-              margin: '0%',
-              alignSelf: 'center',
-              position: 'absolute'
-            }
           })
         }
       })
@@ -104,18 +121,39 @@ export default class DriverQueueScreen extends React.Component {
       .child("rides")
       .on("child_changed", snapshot => {
         console.log(snapshot);
+        this.startLoading();
         const initRiders = [];
         this.state.riders.forEach(function (value) {
           console.log(value);
-
           if (value.ride_id != snapshot.key) {
             initRiders.unshift(value);
           }
         });
+        const data = snapshot.val();
+        if (data) {
+          if (data.status == 2 && !data.driverid) {
+            var val = {
+              campus: data.campus,
+              driverid: data.driverid,
+              dropoff: data.dropoff,
+              note: data.note,
+              numriders: data.numriders,
+              pickup: data.pickup,
+              rider: data.User._55.name,
+              riderid: data.riderid,
+              status: data.status,
+              timestamp: data.timestamp,
+              phone: data.phone,
+              ride_id: snapshot.key
+            };
+            initRiders.unshift(val);
+          }
+        }
         this.setState({
           riders: initRiders,
           refresh: !this.state.refresh
         })
+        this.stopLoading();
       })
 
   }
@@ -140,6 +178,7 @@ export default class DriverQueueScreen extends React.Component {
     )
   }
 
+
   static navigationOptions = {
     header: null,
   };
@@ -154,7 +193,9 @@ export default class DriverQueueScreen extends React.Component {
 
         <View style={styles.container}>
           <Text style={styles.title}>Queued Ride Requests</Text>
-          <ActivityIndicator animating={this.state.loading} style={this.state.loadingmargin} size="large" color="#fff" />
+          <ActivityIndicator animating={this.state.loading} style={this.state.loadingmargin} size="large" color="#fff">
+          </ActivityIndicator>
+          <Text style={styles.loadingtext}>{this.state.loading ? "Loading" : null}</Text>
           <FlatList
             style={{ borderWidth: 3, elevation: 1, borderColor: 'white', borderRadius: 20, padding: 15, }}
             data={this.state.riders}
@@ -192,6 +233,18 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     fontSize: 25,
+    fontWeight: '600'
+  },
+  loadingtext: {
+    color: 'white',
+    padding: 10,
+    textAlign: 'center',
+    marginTop: '100%',
+    elevation: 1,
+    marginBottom: 10,
+    position: 'absolute',
+    alignSelf: 'center',
+    fontSize: 15,
     fontWeight: '600'
   },
   buttonView: {
