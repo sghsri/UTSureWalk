@@ -4,6 +4,7 @@ import { WebBrowser } from 'expo';
 import ApiKeys from '../constants/ApiKeys'
 import * as firebase from 'firebase';
 import RideItem from '../components/RideItem'
+import Communications from 'react-native-communications';
 
 export default class DriverQueueScreen extends React.Component {
   constructor(props) {
@@ -208,7 +209,10 @@ export default class DriverQueueScreen extends React.Component {
             <TouchableOpacity style={styles.button} title="" onPress={() => navigate('Rider', {})}>
               <Text style={styles.buttonTxt}>Ride</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} title="Driver ->" onPress={() => navigate('DriverQueue', {})}>
+            <TouchableOpacity style={styles.button} title="Driver ->" onPress={() => {
+              Communications.phonecall('5122329255', true);
+            }
+            }>
               <Text style={styles.buttonTxt}>Contact</Text>
             </TouchableOpacity>
           </View>
